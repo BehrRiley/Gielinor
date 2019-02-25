@@ -11,4 +11,10 @@ Features that will be a part of the adventure experience:
 - Custom Monsters
 - Custom Equipment
 
-Custom equipment will be able to return to the Overworld, however nothing else will be able to come to the Adventure Map. Inventories will be separated, so items will stay in the players' inventories for when they return back to the Overworld. Rewards from quests & treasure trails will be considered in transfering to and from the Overworld as well. Developing different processes to transfer items to and from; considering a mail system probably. idkye
+Custom equipment will be able to return to the Overworld, however nothing else will be able to come to the Adventure Map. Inventories will be separated, so items will stay in the players' inventories for when they return back to the Overworld. Rewards from quests & treasure trails will be considered in transfering to and from the Overworld as well. Developing different processes to transfer items to and from; considering a mail system probably. idkyet
+
+Current Developers:
+Behr Riley
+
+Resigned Developers:
+BehrBot | Commits:0
