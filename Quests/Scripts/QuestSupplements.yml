@@ -1,0 +1,36 @@
+# Helper command for injecting NPC internals from chat commands
+# Uses the command "[ Removed ]" - you can consider this a password.
+# Nobody should run this command from in-game.
+# Using the event ensures players do not know of the command via tab-complete or /help
+
+# ████████████████████████████████████████████████████
+# ██   Procedure
+# ██   Used for all dialog procedures with NPC's
+# ██   
+
+# ███ [ Chat Procedures ] ███
+silent_injector:
+  type: world
+  debug: false
+  pw: "[ Removed ]"
+  events:
+    on cyUuQ9y8MKD9cMX command:
+    - if <c.args.size> != 4:
+      - queue clear
+
+    - determine passively fulfilled
+    - if !<player.has_flag[sig]> || <player.flag[sig]> != <c.args.get[4]>:
+      - queue clear
+
+    - run <c.args.get[1]> path:<c.args.get[2]> instantly npc:<c.args.get[3]>
+
+# ███ [ Chat Procedures ] ███
+option:
+  type: procedure
+  definitions: display|path|npc|sig|interact
+  debug: false
+  script:
+  - define c_text "<&6>[<&e>Click<&6>]<&r> <def[display]>"
+  - define s_text "<&6>[<&e>Select Option<&6>]<&r> <def[display]>"
+  - determine "<proc[msgCommand].context[<def[c_text]>|<s@silent_injector.yaml_key[pw]> <def[interact]> <def[path]> <def[npc]> <def[sig]>|<def[s_text]>]>"
+
