@@ -1,0 +1,41 @@
+Fire_Spell_Furnished: 
+  type: task 
+  debug: false
+  definitions: Player|PlayerTarget|Range
+  script:
+    - define StartPosition <def[Player].location.add[0,1,0]>
+
+    - define FalsePositive <def[Player].eye_location.add[<player.location.direction.vector.mul[28]>]>
+
+    - define MiddleDiff <def[PlayerTarget].eye_location.y.sub[<def[PlayerTarget].location.y>].div[2]||null>
+    - define IsObstructed <def[Player].location.cursor_on.points_between[<def[StartPosition]>].distance[1].size.is[LESS].than[<def[Range]>]>
+
+    - define ObstructedPosition <def[Player].location.cursor_on>
+    - define UnObstructedPosition <def[PlayerTarget].location.add[0,<def[MiddleDiff]>,0]||<def[FalsePositive]>>
+
+    - define EndPosition <tern[<def[IsObstructed]>]:<def[ObstructedPosition]>||<def[UnObstructedPosition]>>
+
+    - define Yaw <def[Player].location.direction>
+    - define string <def[StartPosition].points_between[<def[EndPosition]>].distance[0.02]>
+
+    - foreach <def[string]>:
+      - define ycos "<def[loop_index].sin.div[1.5]>"
+      - define xcos "<def[loop_index].cos.div[1.5]>"
+      - define color1 "<li@200|150|100.get[<def[loop_index].mod[4]>]>"
+      - if <def[Yaw]> == "north" || <def[Yaw]> == "south":
+        - playeffect at:<def[value].add[<def[xcos]>,<def[ycos]>,0]> quantity:3 offset:0.01,0.01,0.01 visibility:50 effect:REDSTONE special_data:.3|255,<def[color1]>,0 data:0
+      - else if <def[Yaw]> == "east" || <def[Yaw]> == "west":
+        - playeffect at:<def[value].add[0,<def[ycos]>,<def[xcos]>]> quantity:3 offset:0.01,0.01,0.01 visibility:50 effect:REDSTONE special_data:.3|255,<def[color1]>,0 data:0
+      - else:
+        - playeffect at:<def[value].add[<def[xcos]>,<def[ycos]>,0]> quantity:3 offset:0.01,0.01,0.01 visibility:50 effect:REDSTONE special_data:.3|255,<def[color1]>,0 data:0
+      - playeffect at:<def[value]> offset:0.1,0.1,0.1 visibility:50 effect:redstone special_data:.5|255,<def[color1]>,0
+      - if <def[loop_index].mod[15]> == 1:
+        - playeffect at:<def[value]> effect:flame offset:0.2,0.2,0.2
+      - if <def[loop_index].mod[100]> == 1:
+        - wait 1t
+    - playeffect at:<def[EndPosition]> offset:0.05,0.05,0.05 visibility:50 quantity:30 effect:lava data:1
+    - playeffect at:<def[EndPosition]> offset:0.3,0.3,0.3 visibility:50 quantity:50 effect:smoke data:0
+    - if <util.random.int[1].to[5]> == 1:
+      - playeffect at:<def[EndPosition]> effect:EXPLOSION_large visibility:100 quantity:2 offset:0.2,0.2,0.2
+    - wait 1t
+    - hurt 24 cause:magic <def[EndPosition].find.entities.within[2.5].exclude[<def[Player]>]> source_once Source:<player>
