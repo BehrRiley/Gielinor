@@ -15,6 +15,7 @@ Custom equipment will be able to return to the Overworld, however nothing else w
 
 **Current Developers**:
 - **Behr Riley [Behr]**
+- **Ant_0321 [Ant]**
 - **Mobamba [RobbyBobby]**
 
 ***Thanks to:***
