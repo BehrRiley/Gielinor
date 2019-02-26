@@ -1,0 +1,124 @@
+# ████████████████████████████████████████████████████ 
+# ██   Depricating - reducing definitions & narrowing 
+# ██   process for damage targeting
+# ██ 
+# ██▓▓▒▒░░ 
+
+DamageProc:
+  type: procedure
+  debug: true
+  definitions: EntityA|EntityB|Style|Spell
+  script:
+    #██ Melee
+    - if <def[style].contains_any[ENTITY_ATTACK|ENTITY_SWEEP_ATTACK]>:
+      #██ Define Entity [A] {AttackLvl}||{StrengthLvl}||{AttackBonus}||{StrengthBonus}||{Max Hit} 
+      - define Attack <def[EntityA].flag[Attacklevel]||1>
+      - define Strength <def[EntityA].flag[Strengthlevel]||1>
+      - define AttackBonus <def[EntityA].flag[Attackbonus]||0>
+      - define StrengthBonus <def[EntityA].flag[Strengthbonus]||0>
+      - define MaxHit <def[Strength].add[3].mul[<def[Strengthbonus].add[64]>].div[640].add[0.5].round_down>
+
+      #██ Define Entity [A] {Attack Roll}||{Maximum Effective Level}||{Maximum Effective Base} 
+      - define AttackRoll <def[Attack].add[3].mul[<def[Attackbonus].add[64]>]>
+      - define MaxEffectiveLevelA <def[Attackroll].sub[<el@11.mul[<def[Attackbonus]>]>].sub[704].div[<def[Attackbonus].add[64]>]>
+      - define MaxEffectiveBonusA <def[Attack].mul[-64].add[<def[Attackroll]>].sub[704].div[<def[Attack].add[11]>]>
+
+      #██ Define Entity [B] {Defense Roll}||{Defense Bonus / Equipment Bonus}||{Defense Roll} 
+      - define Defense <def[EntityB].flag[DefenseLevel]||1>
+      - define DefenseBonus <def[EntityB].flag[DefenseBonus]||0>
+      - define DefenseRoll <def[Defense].mul[<def[DefenseBonus].add[64]>]>
+
+      #██ Define Entity [A] {Accuracy}||{Hit} 
+      - define Accuracy <Tern[<def[AttackRoll].is[MORE].than[<def[DefenseRoll]>]>:]:<el@1.sub[<def[DefenseRoll].add[2].div[<el@2.mul[<def[AttackRoll].add[1]>]>]>]>||<def[AttackRoll].div[<def[DefenseRoll].add[1].mul[2]>]>>
+      - define Hit <util.random.decimal.is[LESS].than[<def[Accuracy]>]>
+
+      #██ Define {Damage} 
+      - define damage 0
+      - define damage <def[Damage].add[<tern[<def[Hit]>]:<util.random.int[1].to[<def[MaxHit]>]>||0>]>
+      - determine <def[Damage]>
+      - queue clear
+
+    #██ Ranged
+    - if <def[style].contains_any[PROJECTILE]>:
+      #██ Define Entity [A] {RangedLvl}||{RangedBonus}||{Max Hit} 
+      - define Ranged <def[EntityA].flag[Rangedlevel]||1>
+      - define RangedBonus <def[EntityA].flag[RangedBonus]||0>
+      - define MaxHit <def[Ranged].add[3].mul[<def[RangedStrength].mul[<el@1.add[<def[RangedStrength]>]>]>]||1>
+
+      #██ Define Entity [A] {Attack Roll}||{Maximum Effective Level}||{Maximum Effective Base} 
+      - define AttackRoll <def[ranged].add[3].mul[<def[rangedbonus].add[64]>]>
+      - define MaxEffectiveLevelA <def[Attackroll].sub[<el@11.mul[<def[RangedBonus]>]>].sub[704].div[<def[RangedBonus].add[64]>]>
+      - define MaxEffectiveBonusA <def[Ranged].mul[-64].add[<def[Attackroll]>].sub[704].div[<def[Ranged].add[11]>]>
+
+      #██ Define Entity [B] {Defense Roll}||{Defense Bonus / Equipment Bonus}||{Defense Roll} 
+      - define Defense <def[EntityB].flag[DefenseLevel]||1>
+      - define DefenseBonus <def[EntityB].flag[DefenseBonus]||0>
+      - define DefenseRoll <def[Defense].mul[<def[DefenseBonus].add[64]>]>
+
+      #██ Define Entity [A] {Accuracy}||{Hit} 
+      - define Accuracy <Tern[<def[AttackRoll].is[MORE].than[<def[DefenseRoll]>]>:]:<el@1.sub[<def[DefenseRoll].add[2].div[<el@2.mul[<def[AttackRoll].add[1]>]>]>]>||<def[AttackRoll].div[<def[DefenseRoll].add[1].mul[2]>]>>
+      - define Hit <util.random.decimal.is[LESS].than[<def[Accuracy]>]>
+
+      #██ Define {Damage} 
+      - define damage 0
+      - define damage <def[Damage].add[<tern[<def[Hit]>]:<util.random.int[1].to[<def[MaxHit]>]>||0>]>
+      - determine <def[Damage]>
+      - queue clear
+
+    #██ Magic
+    - if <def[style].contains_any[MAGIC]> && <def[Spell]> != Null:
+      #██ Define Entity [A] {MagicLvl}||{MagicBonus}||{MagicStrength}||{Max Hit} 
+      - define Magic <def[EntityA].flag[MagicLevel]||1>
+      - define MagicBonus <def[EntityA].flag[MagicBonus]||0>
+      - define MagicStrength <def[EntityA].flag[MagicStrength]||0>
+      - define MaxHit <script.yaml_key[Spell.<def[Spell]>].mul[<el@1.add[<def[MagicStrength]>]>]||1>
+
+      #██ Define Entity [A] {Attack Roll}||{Maximum Effective Level}||{Maximum Effective Base} 
+      - define AttackRoll <def[Magic].add[3].mul[<def[MagicBonus].add[64]>]>
+      - define MaxEffectiveLevelA <def[Attackroll].sub[<el@11.mul[<def[MagicBonus]>]>].sub[704].div[<def[MagicBonus].add[64]>]>
+      - define MaxEffectiveBonusA <def[Magic].mul[-64].add[<def[Attackroll]>].sub[704].div[<def[Magic].add[11]>]>
+
+      #██ Define Entity [B] {MagicLvl}||{Defense Roll}||{Defense Bonus / Equipment Bonus}||{Defense Roll} 
+      - define MagicB <def[EntityB].flag[MagicLevel]||1>
+      - define Defense <def[EntityB].flag[DefenseLevel]||1>
+      - define DefenseBonus <def[EntityB].flag[DefenseBonus]||0>
+      - define DefenseRoll <def[MagicB].mul[0.3].add[<def[Defense].mul[0.7]>].mul[<def[DefenseBonus].add[64]>]>
+
+      #██ Define Entity [A] {Accuracy}||{Hit} 
+      - define Accuracy <Tern[<def[AttackRoll].is[MORE].than[<def[DefenseRoll]>]>]:<el@1.sub[<def[DefenseRoll].add[2].div[<el@2.mul[<def[AttackRoll].add[1]>]>]>]>||<def[AttackRoll].div[<def[DefenseRoll].add[1].mul[2]>]>>
+      - define Hit <util.random.decimal.is[LESS].than[<def[Accuracy]>]>
+
+      #██ Define {Damage} 
+      - define damage 0
+      - define damage <def[Damage].add[<tern[<def[Hit]>]:<util.random.int[1].to[<def[MaxHit]>]>||0>]>
+      - determine <def[Damage]>
+
+  Spell:
+    "Air Strike": 2
+    "Water Strike": 4
+    "Vex Strike": 6
+    "Fire Strike": 8
+
+    "Air Bolt": 9
+    "Water Bolt": 10
+    "Fraility": 11
+    "Leech": 12
+    "Fire Bolt": 12
+
+    "Crumble undead": 15
+    "Wind Blast": 13
+    "Water Blast": 14
+    "Decrepify": 15
+    "Iban Blast": 25
+    #"Magic Dart": 10-19
+    "Fire Blast": 16
+
+    "Wind Wave": 17
+    "Water Wave": 18
+    "vexsomething": 19
+    "Fire Wave": 20
+
+    "Wind Surge": 21
+    "Water Surge": 22
+    "vexsomething": 23
+    "Fire Surge": 24
