@@ -1,6 +1,6 @@
 # Spells n Shit
 ```
-**Spells         LVL   DMG  EXP**
+Spells         LVL   DMG  EXP
 Air Strike      1     2   5.5
 Water Strike    5     4   7.5
 Vex Strike      9     6   20
