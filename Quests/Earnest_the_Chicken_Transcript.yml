@@ -1,0 +1,176 @@
+Earnest the Chicken Transcript
+Starting out
+
+#Talking to Veronica
+#First time
+Veronica: Can you please help me? I'm in a terrible spot of trouble. My fiancé, Ernest, and I came upon this house. Seeing as we were a little lost, Ernest decided to go in and ask for directions. That was an hour ago...and that house looks spooky. Can you go and see if you can find him for me?
+Player: Yes
+  Veronica: Thank you, thank you. I'm very grateful. I think I spotted some lights flashing in one of the top floor windows, so you may want to head up there first.
+Player: Not Right Now
+  Veronica: Oh. I'm so worried. I hope someone will help me soon.
+
+#Prior to discovering that Ernest has become a chicken
+Veronica: Have you found my sweetheart yet?
+  Player: No, not yet.
+
+#After discovering that Ernest has become a chicken
+Veronica: Have you found my sweetheart yet?
+  Player: Yes, he's a chicken.
+    Veronica: I know he’s not exactly brave, but I think you’re being a bit harsh.
+      Player: No, no, he’s been turned into an actual chicken by a mad scientist.
+        Veronica: Eeeeeek! My poor darling! Why must these things happen to us?
+          Player: I’m doing my best to turn him back.
+            Veronica: Well, be quick. I’m sure being a chicken can’t be good for him.
+
+#Entering the Manor
+#First time
+Player: There's a sign on the door that says:
+  Adventurers beware: Going in doesn't mean you'll come out again.
+    Do you want to go in?
+      Player: Yes.
+        The doors slam shut behind you.
+      Player: No.
+      (Dialogue ends)
+
+#Professor Oddenstein
+#Finding Ernest
+#Talking to Professor Oddenstein
+Professor Oddenstein: Be careful in here, there's lots of dangerous equipment.
+  Player: I'm looking for a guy called Ernest.
+    Professor Oddenstein: Ah, Ernest - top notch bloke - he's helping me with my experiments.
+      Player: So you know where he is?
+        Professor Oddenstein: He's that chicken over there.
+          Player: Ernest is a chicken? Are you sure?
+            Professor Oddenstein: Oh, he isn't normally a chicken, or, at least, he wasn't until he helped me test my pouletmorph machine. It was originally going to be called a transmutation machine, but after testing it, pouletmorph seems more appropriate.
+              Player: I'm glad Veronica didn't actually get engaged to a chicken.
+                Professor Oddenstein: Who's Veronica?
+                  Player: Ernest's fiancée. She probably doesn't want to marry a chicken.
+                    Professor Oddenstein: Oh, I dunno. She could have free eggs for breakfast every morning.
+              Player: I think you'd better change him back.
+              Player: Change him back this instant!
+
+                Professor Oddenstein: Umm... It's not so easy... My machine is broken, and this house has long been pestered by poltergeists. They seem to reap joy from hiding my belongings and, in this case, the vital parts to my machine.
+                  Player: Well, I can look for them.
+                    Professor Oddenstein: That would be a huge help. They'll be somewhere in the manor house or its grounds outside. I'm missing the pressure gauge and a rubber tube. They've also taken my oil can, which I'm going to need to get this thing started again.
+                      Player: Any clues?
+                        Professor Oddenstein: Well, I wouldn't be surprised if you found something in my IQ-testing room under the manor where I test my...creations. Oh, and if I were you, I'd stay away from the coffin in the basement. Even the poltergeists daren't go near it.
+                      Player: What does this machine do?
+                        Professor Oddenstein: Nothing at the moment...it's broken. It's meant to be a transmutation machine. It has also spent time as a time travel machine, a dramatic lightning generator, and a thing for generating monsters.
+                      Player: Is this your house?
+                        Professor Oddenstein: No, I'm just one of the tenants. It belongs to the count who lives in the basement.
+
+#Without any of the necessary materials
+Professor Oddenstein: Have you found anything yet?
+  Player: I'm afraid I don't have any of them yet.
+    Professor Oddenstein: I need a rubber tube, a pressure gauge and a can of oil. Then your friend can stop being a chicken.
+
+#Ernest as a chicken
+As Ernest in chicken form walks around the room: 
+  Ernest: Cluck!
+
+#Searching the house
+#Count Draynor's coffin
+Trying to open the door inside the room where Count Draynor's coffin lies: 
+  Player: Why would I want to lock myself in a cage?
+
+#Rubber tube
+  Digging through the compost without the Grimy key
+  You dig through the compost...
+  ...and find a small key.
+  Digging through the compost with the Grimy key
+  You dig through the compost...
+  ...and find nothing of interest.
+  Attempting to open the locked door without the Grimy key
+  The door is locked.
+
+#Pressure gauge
+  Searching Draynor Manor's fountain without applying poisoned fish food
+  Player: There seems to be a pressure gauge in here...
+  Something in the water bites you.
+  Player: Ow!
+  Player: ...and a lot of piranhas! I can't get the gauge out.
+  Using normal fish food on the Draynor Manor fountain
+  You pour the fish food into the fountain.
+  The piranhas start eating the food...
+  Now they seem hungrier than ever!
+  Using the poison on the fish food
+  You poison the fish food.
+  Using poisoned fish food on the Draynor Manor fountain
+  You pour the poisoned fish food into the fountain.
+  The piranhas start eating the food...
+  ...then die and float to the surface.
+  Searching the Draynor Manor fountain after applying poisoned fish food
+  Player: There seems to be a pressure gauge in here...[sic]
+  Player: ...and a lot of dead fish.
+  You retrieve the pressure gauge from the fountain.
+
+#Levers
+#Pulling any lever up/down
+  You pull lever [letter name of lever] up/down.
+  You hear a clunk.
+  Attempting to enter the secret door and entering successfully
+  The lever opens a secret door.
+
+#Finishing up
+#Before obtaining any necessary materials
+Professor Oddenstein: Have you found anything yet?
+  Player: I'm afraid I don't have any of them yet.
+    Professor Oddenstein: I need a rubber tube, a pressure gauge, and a can of oil. Then your friend can stop being a chicken.
+
+#After obtaining some but not all necessary materials
+Professor Oddenstein: Have you found anything yet?
+#If you only have one item with you: 
+#If you only have the rubber tube with you: ​
+​  Player: I've only got the rubber tube so far.
+    Professor Oddenstein: It's a good start, but I'll need my pressure gauge and oil can too.
+
+#If you only have the pressure gauge with you: 
+  Player: I've only got the pressure gauge so far.
+    Professor Oddenstein: It's a good start, but I'll need my oil can and rubber tube too.
+
+#If you only have the pressure gauge with you: 
+  Player: I've only got the oil can so far.
+    Professor Oddenstein: It's a good start, but I'll need my pressure gauge and rubber tube too.
+
+  Player: Okay, I'll go look for them.
+
+
+#If you only have two items with you:
+#If you only have the rubber tube and the pressure gauge with you
+  Player: I've got the rubber tube and the pressure gauge.
+    Professor Oddenstein: That's good, but I still need my oil can.
+
+#If you only have the pressure gauge and the oil can with you
+  Player: I've got the pressure gauge and the oil can.
+    Professor Oddenstein: That's good, but I still need my rubber tube.
+
+#If you only have the rubber tube and the oil can with you: 
+  Player: I've got the rubber tube and the oil can.
+    Professor Oddenstein: That's good, but I still need my pressure gauge.
+
+      Player: Okay, I'll go look for it.
+
+#After obtaining all necessary materials
+Professor Oddenstein: Have you found anything yet? Give 'em here then.
+You give a rubber tube, a pressure gauge, and a can of oil to the professor.
+Oddenstein starts up the machine.
+The machine hums and shakes.
+Ernest turns into a human.
+  Ernest: Thank you, [sir/m'lady]. It was dreadfully irritating being a chicken. How can *cluck* I ever thank you?
+    Player: A cash reward is always nice...
+      Ernest: Of course, of course. You may as well have these eggs and *cluck* feathers I mysteriously *bwark* found in my pockets.
+      Ernest hands you 3,000 coins, 10 eggs and 300 feathers.
+
+NPCs:
+  Ernest
+  Professor Oddenstein
+  Veronica
+
+Custom Items:
+  fish food
+  oil can
+  poison
+  poisoned fish food
+  pressure gauge
+  rubber tube
+  grimy key
