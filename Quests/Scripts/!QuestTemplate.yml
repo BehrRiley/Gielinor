@@ -1,0 +1,36 @@
+# ███████████████████████████████████████████████████████████
+# ██   **Custom script paths to be injected/run**
+# ██   Required per NPC; can be used for multiple NPC's
+# ██   Use this as a template
+# ██   
+# ██ [ NPC Assignment ] ██
+# ██ Assign "npcname" to the npc you would like to use 
+# ██ /npc assignment --set npcname 
+
+npcname: 
+  type: assignment 
+  debug: true 
+  actions: 
+    on assignment: 
+    - trigger name:click state:true 
+    - trigger name:proximity state:true radius:4
+    on exit proximity:
+    - flag player interacting_npc:!
+    - flag player sig:!
+# ██ [ Beginning Script Process            ] ██
+# ██ [ Quest Requirements/logic begin here ] ██
+    on click:
+
+
+
+# ████████████████████████████████████████████████████ 
+# ██   Custom script paths to be injected/run 
+# ██   This does not get changed; it's the-
+# ██
+  opt_loop: 
+  - define sig <util.random.uuid> 
+  - flag player sig:<def[sig]> 
+  - foreach <script.yaml_key[<def[1]>]>: 
+    - define value <def[value].split[/].limit[2]> 
+    - define interacting <player.flag[interacting_npc]>
+    - narrate "<proc[option].context[<def[value].get[2]>|<def[value].get[1]>|<npc>|<def[sig]>|<def[interacting]>]>" 
