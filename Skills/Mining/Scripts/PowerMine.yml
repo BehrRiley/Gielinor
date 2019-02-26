@@ -1,0 +1,89 @@
+# ████████████████████████████████████████████████████
+# ██   Active Ability | Power-Mine
+# ██   Activated by right-clicking with a pickaxe in hand,
+# ██   will temporarily add 5 enchantment levels to your 
+# ██   pickaxe for a period of time (dependent on mining level).
+# ██   
+# ██   he duration of the skill starts at 2 seconds, 
+# ██   increases by 1 second every 5 levels, with a maximum 
+# ██   duration of 22 seconds at level 99. Cool down time is 
+# ██   240 seconds unaffected by level. This ability also allows 
+# ██   you to triple the chance of getting double drops / replacing 
+# ██   double drop chance with triple drop chance for the 
+# ██   duration of super breaker.
+# ██   
+# ██ [ World Script ] ██
+Mining_Ability_Power:
+  type: world
+  debug: false
+  events:
+
+
+#%%%   ███ [ Notes ] ███
+#%%%   Anything in [brackets] is required... you MUST put it there. 
+#%%%   Anything in (parenthesis) is optional... you only need to put it there if you want to. 
+#%%%   Anything in {braces} is default... the command will just assume this if no argument is actually typed. 
+#%%%   Anything in <> is non-literal... you must change what is inside of it. 
+#%%%   Anything outside of <> is literal... you must put it exactly as-is. 
+
+# ███ [ Notable Events ] ███
+# ███ [ Clicks Block   ] ███
+#+++   [*]: on player clicks block: 
+#+++   AKA  on player (<click type>) clicks block        (with <item>) (using hand/off_hand/either_hand) (in <area>)
+#+++   AKA: on player (<click type>) clicks (<material>) (with <item>) (using hand/off_hand/either_hand) (in <area>) 
+#+++   Triggered: when a player clicks on a block or in the air. 
+#+++   This event can be cancelled. This adds 'context.cancelled', and determines 'CANCELLED' and 'CANCELLED:FALSE'
+#+++   Context: <context.item> returns the dItem the player is clicking with.
+#+++   Context: <context.location> returns the dLocation the player is clicking on.
+#+++   Context: <context.relative> returns a dLocation of the air block in front of the clicked block.
+#+++   Context: <context.click_type> returns an Element of the click type.
+#+++   Context: <context.hand> returns an Element of the used hand.
+
+# ███ [ Breaks Block   ] ███
+#+++   [*]: on player breaks block      (in <area>): 
+#+++   AKA: on player breaks <material> (in <area>)
+#+++   Triggered: when a player breaks a block. 
+#+++   This event can be cancelled. This adds 'context.cancelled', and determines 'CANCELLED' and 'CANCELLED:FALSE'
+#+++   Context: <context.location> returns the dLocation the block was broken at.
+#+++   Context: <context.material> returns the dMaterial of the block that was broken.
+#+++   Context: <context.cuboids> DEPRECATED.
+#+++   Context: <context.xp> returns how much XP will be dropped.
+#+++   Switch: with <item>
+#+++   Determine: "NOTHING" to make the block drop no items.
+#+++   Determine: dList(dItem) to make the block drop a specified list of items.
+#+++   Determine: Element(Number) to set the amount of xp to drop.
+
+
+# ███ [ Notable Commands ] ███
+# ███ [ Flag | {Memory}  ] ███
+#+++ [core command] flag: Sets or modifies a flag on the player, NPC, entity, or server.
+#+++ Syntax: - flag ({player}/npc/server/<entity>) 
+#+++                [<name>([<#>])](:<action>)[:<value>] 
+#+++                (duration:<value>)
+#+++ Usage: Use to create or set a flag on a player.
+#+++   - flag player playstyle:agressive
+#+++ Usage: Use to flag an npc with a given tag value.
+#+++   - flag npc location:<npc.location>
+#+++ Usage: Use to apply mathematical changes to a flag's value on a unique object.
+#+++   - flag <context.damager> damage_dealt:+:<context.damage>
+
+# ███ [ Cast | {Effect}  ] ███
+#+++ [entity command] cast: Casts a potion effect to a list of entities.
+#+++ Syntax: - cast [<effect>] 
+#+++                (remove) 
+#+++                (duration:<value>) 
+#+++                (power:<#>) 
+#+++                (<entity>|...) 
+#+++                (no_ambient) 
+#+++                (hide_particles)
+#+++ Usage: Use to cast an effect onto the player for 120 seconds with a power of 3.
+#+++   - cast jump d:120 p:3
+#+++ Usage: Use to remove an effect from the player.
+#+++   - if <player.has_effect[jump]> {
+#+++     - cast jump remove <player>
+#+++ Related Tags:
+#+++ <e@entity.has_effect[<effect>]> 
+#+++ <server.list_potion_effects>
+
+
+# ███ [ Notable Tags     ] ███
