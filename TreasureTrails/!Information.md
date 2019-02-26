@@ -86,5 +86,6 @@ When speaking to an NPC in a hard or elite trail, the player may receive a puzzl
 kind of an example?
 ```
 Shulker box will contain 9 maps with images;
-Place them in order on item frames, remove & place carefully back in the shulkerbox and you can check with the NPC if it's correct or not.
+Place them in order on item frames, remove & place carefully back in 
+the shulkerbox and you can check with the NPC if it's correct or not.
 ```
