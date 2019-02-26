@@ -41,7 +41,7 @@ npcname:
 
 
 
-# ████████████████████████████████████████████████████ 
+# ███████████████████████████████████████████████████████████
 # ██   Custom script paths to be injected/run 
 # ██   
 # ██   These are where the scripts go that options
@@ -60,7 +60,7 @@ npcname:
   - narrate format:cgf "<script.yaml_key[d3]>"
 
 
-# ████████████████████████████████████████████████████ 
+# ███████████████████████████████████████████████████████████
 # ██   Custom script paths to be injected/run 
 # ██ 
 # ██   These are the options that appear in chat.
@@ -73,7 +73,7 @@ npcname:
   - "Script_process_Goodbye/<&a>Goodbye"
 
 
-# ████████████████████████████████████████████████████ 
+# ███████████████████████████████████████████████████████████
 # ██   Dialog Transcripts to be narrated
 # ██ 
 # ██   Simple, easy key names are essential for
