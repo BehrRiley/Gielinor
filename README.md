@@ -18,6 +18,9 @@ Behr Riley [Behr]
 Mobamba [RobbyBobby]
 
 ***Thanks to:***
+
 **[Renkha]** - *Original kickstart of the Gielinor Map*
+
 **[Mergu]** - *Helped with a **crucial** procedure script used for quest dialogs*
+
 **[Jagex]** - *Literally making the game we're using for influence.*
