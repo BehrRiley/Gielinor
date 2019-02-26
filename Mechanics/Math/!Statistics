@@ -1,0 +1,29 @@
+# Experience
+xperience, commonly abbreviated as exp or xp, is a measure of progress in a certain skill. It is obtained by performing tasks related to that skill. Experience can also sometimes be gained by performing certain other tasks not necessarily related to the skill, such as completing quests, sub-quests, mini-quests, treasure trails, tasks, etc.
+
+The experience difference calculation is a function in the form of:
+`f(x) = \frac{\lfloor x-1+300 * 2^{\frac{x-1}{7}} \rfloor}{4}`
+x being the level starting from 2.
+
+## Formulas
+The formula needed to calculate the amount of experience needed to reach level L is: 
+`\text{Experience} = \left \lfloor{\frac{1}{4}\sum_{x=1}^{L-1}}\left\lfloor{x + 300\cdot2^{\frac{x}{7}}}\right\rfloor\right\rfloor`
+
+If the floor functions are ignored, the sum is merely a combination of arithmetic and geometric sums, and can thus be further derived into a closed-form continuous function with a positive real variable L (standing for level). The approximation rapidly approaches the original sum asymptotically. The function is as follows: 
+`\frac{1}{4} \left[ \frac{1}{2} \cdot {L}^{2} - \frac{1}{2} \cdot L + 300 \cdot \sqrt[7]{2} \cdot \frac{{2}^{\frac{L-1}{7}}-1} {{2}^{\frac{1}{7}}-1} \right] + E \left( L \right)`
+
+Ignoring floor functions will result in an exceedingly minor error term, and as floor of real numbers is taken twice, once from the inner function of sum and once from the total sum, the error term E(L) is strictly bounded: 
+`0 \leq E\left ( L \right ) \leq  L + 1`
+According to these bounds the maximum error at level 99 would only be 100, whereas the actual error, 9.97, is even lower. The aforementioned bounds can be improved, although it is redundant with this low errors.
+
+## Trivia
+- to level up 9 more times after levelling up once, it will take 15.25 times the xp needed for the initial level up.
+- similarly for 19 more level ups, it will take 59 times the initial xp.
+- similarly for 29 more level ups, it will take 176.768 times the initial xp
+- the xp needed to level up 11 times is not enough to level up even once 30 levels from now.
+- After about level 20, where the exponential experience curve fits the best, the amount of total experience doubles every 7 levels. (i.e. Level 85 requires twice as much total experience as level 78, level 92 requires twice as much total experience as level 85, and level 99 requires twice as much total experience as level 92.)
+
+After level 30, the general experience required to level up falls between 9-10% of your current experience. At mid to high levels of 55+, the experience needed to level up falls at around an average of 9.4% of current experience all the way to level 99.
+
+To max all of the 21 skills it will take a total of 273,723,051 experience.
+To reach the 200 million experience cap for all the 21 skills it will take a total of 4,200,000,000 experience. 
