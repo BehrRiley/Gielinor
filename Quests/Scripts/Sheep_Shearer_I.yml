@@ -1,0 +1,488 @@
+# ███ [ Farmer Assignment ] ███ 
+# Assign "farmer" to the npc you would like to use 
+# /npc assignment --set farmer 
+farmer: 
+  type: assignment 
+  debug: false 
+  actions: 
+    on assignment: 
+    - trigger name:click state:true 
+    - trigger name:proximity state:true radius:4
+    on exit proximity:
+    - flag player interacting_npc:!
+    - flag player sig:!
+    - narrate "DeBuG: Interact Flag removed"
+#    interact scripts:
+#      - 10 questNPC
+    on click: 
+    - if !<player.has_flag[farmer_stage]>: 
+      - flag player interacting_npc:<queue.script>
+      - inject locally farmer_init 
+
+# ████████████████████████████████████████████████████ 
+# ██   Custom script paths to be injected/run 
+# ██ 
+# ██▓▓▒▒░░ 
+  opt_loop: 
+  - define sig <util.random.uuid> 
+  - flag player sig:<def[sig]> 
+  - foreach <script.yaml_key[<def[1]>]>: 
+    - define value <def[value].split[/].limit[2]> 
+    - define interacting <player.flag[interacting_npc]>
+    - narrate "<proc[option].context[<def[value].get[2]>|<def[value].get[1]>|<npc>|<def[sig]>|<def[interacting]>]>" 
+
+# ███ [ Player talks to npc ] ███ 
+  farmer_init: 
+  # ███ [ Has player started Sheep Shearer 1? Start    ] ███ 
+  - if !<player.has_flag[qsheepshearer1:started]>: 
+    - narrate format:ff "<script.yaml_key[d1]>" 
+    - wait 1s 
+    - run locally opt_loop def:o1 instantly 
+
+  # ███ [ Player Has started Sheep Shearer 1: Continue ] ███ 
+  - else if <player.has_flag[qsheepshearer1:started]>: 
+    - define woolcount '<player.inventory.quantity[black_carpet]>' 
+    - define remainingwool '<player.flag[qsheepshearerprogress]>' 
+    # ███ [ Player has no wool or carpet               ] ███ 
+    - if <player.inventory.quantity[black_carpet]> <= 1 && <player.inventory.quantity[black_wool]> <= 1: 
+      - inject locally Return_With_Nothing 
+    # ███ [ Player actually has carpet                 ] ███ 
+    - else if <def[woolcount].is[LESS].than[<def[remainingwool]>]>: 
+      - inject locally Less_Then_Remaining_QuestReturn 
+    - else if <def[woolcount].is[MORE].than[<def[remainingwool]>]>: 
+      - inject locally More_Than_Remaining_QuestReturn 
+
+# ███ [ Player is looking for work                     ] ███ 
+  farmer_work: 
+  - narrate format:ff "<script.yaml_key[d2]>" 
+  - wait 2s 
+  - narrate format:ff "<script.yaml_key[d3]>" 
+  - wait 2s 
+  - run locally opt_loop def:o2 instantly 
+
+# ███ [ Player is asking farmer about wool color       ] ███ 
+  farmer_qn_black: 
+  - narrate format:ff "<script.yaml_key[d4]>" 
+  - wait 2s 
+  - run locally opt_loop def:o3 instantly 
+
+# ███ [ Player says it takes all sorts                 ] ███ 
+  farmer_all_sorts: 
+  - narrate format:ff "<script.yaml_key[d5]>" 
+  - wait 2s 
+  - run locally opt_loop def:o2 instantly 
+
+# ███ [ Player says it doesnt sound cool               ] ███ 
+  farmer_not_cool: 
+  - narrate format:ff "<script.yaml_key[d6]>" 
+  - wait 2s 
+  - run locally opt_loop def:o2 instantly 
+
+# ███ [ Asking if this is a quest                      ] ███ 
+  farmer_qn_quest: 
+  - narrate format:ff "<script.yaml_key[d7]>" 
+  - wait 2s 
+  - run locally opt_loop def:o4 instantly 
+
+# ███ [ Player says its not that exciting              ] ███ 
+  farmer_not_exciting: 
+  - narrate format:ff "<script.yaml_key[d8]>" 
+  - wait 2s 
+  - run locally opt_loop def:o4 instantly 
+
+# ███ [ First argument loop                            ] ███ 
+  farmer_argument: 
+  - narrate format:ff "<script.yaml_key[d9]>" 
+  - wait 2s 
+  - run locally opt_loop def:o5 instantly 
+
+# ███ [ Second argument loop                           ] ███ 
+  farmer_argument_2: 
+  - narrate format:ff "<script.yaml_key[d10]>" 
+  - wait 2s 
+  - narrate format:ff "<script.yaml_key[d11]>" 
+  - wait 2s 
+  - run locally opt_loop def:o6 instantly 
+
+# ███ [ Player accepts the quest                       ] ███ 
+  farmer_quest_accept: 
+  - narrate format:ff "<script.yaml_key[d12]>" 
+  - wait 2s 
+  - narrate "<&a><player.name>:<&r> What do you mean, 'The Thing'?" 
+  - wait 2s 
+  - narrate format:ff "<script.yaml_key[d13]>" 
+  - wait 2s 
+  - narrate format:ff "<script.yaml_key[d14]>" 
+  - wait 3s 
+  - narrate format:ff "<script.yaml_key[d27]>" 
+  - flag player qsheepshearerprogress:80 
+  - flag player qsheepshearer1:started 
+  - wait 2s 
+  - run locally opt_loop def:o7 instantly 
+
+# ███ [ Kill the cows                                  ] ███ 
+  farmer_kill_sheep: 
+  - narrate format:ff "<script.yaml_key[d15]>" 
+  - wait 2s 
+  - narrate format:staff "<script.yaml_key[s1]>" 
+  - wait 2s 
+  - narrate format:marthaNPC "<script.yaml_key[m1]>" 
+  - wait 2s 
+  - random: 
+    - repeat 1: 
+      - narrate format:ff "<script.yaml_key[d16]>" 
+      - wait 2s 
+      - narrate format:marthaNPC "<script.yaml_key[m2]>" 
+    - repeat 1: 
+      - narrate format:ff "<script.yaml_key[d17]>" 
+      - wait 2s 
+      - narrate format:marthaNPC "<script.yaml_key[m3]>" 
+    - repeat 1: 
+      - narrate format:ff "<script.yaml_key[d18]>" 
+      - wait 2s 
+      - narrate format:marthaNPC "<script.yaml_key[m4]>" 
+    - repeat 1: 
+      - narrate format:ff "<script.yaml_key[d24]>" 
+      - wait 2s 
+      - narrate format:marthaNPC "<script.yaml_key[m5]>" 
+    - narrate format:ff "<script.yaml_key[d<util.random.int[19].to[23]>]>" 
+
+# ███ [ Player declines quest                          ] ███ 
+  process_ender: 
+  - narrate format:ff "<script.yaml_key[d49]>" 
+  - flag player interacting_npc:!
+
+# ███ [ player says they know how to shear sheep       ] ███ 
+# ███ [ player says theyll be back                     ] ███ 
+  i_can_shear_sheep: 
+  - narrate format:ff "<script.yaml_key[d28]>" 
+  - flag player interacting_npc:!
+
+# ███ [ player doesnt know how to shear sheep          ] ███ 
+  how_shear_sheep: 
+  # ███ [ has shears ] ███ 
+  - if <player.inventory.contains[shears]>: 
+    - narrate format:ff "<script.yaml_key[d31]>" 
+    - wait 2s 
+    - run locally opt_loop def:o9 instantly 
+  # ███ [ doesn't ] ███ 
+  - else: 
+    - narrate format:ff "<script.yaml_key[d29]>" 
+    - wait 2s 
+    - run locally opt_loop def:o8 instantly 
+
+# ███ [ player is an expert of shearing sheep actually ] ███ 
+  Declare_ExpertShearer: 
+  - flag player expertsheepshearer 
+  - narrate format:ff "<script.yaml_key[d35]>" 
+
+# ███ [ player asks how to get shears                  ] ███ 
+  how_get_shears: 
+  - narrate format:ff "<script.yaml_key[d30]>" 
+  - wait 2s 
+  - run locally opt_loop def:o9 instantly 
+
+# ███ [ player asks if its all they have to do         ] ███ 
+  Thats_all_inquire: 
+  - narrate format:ff "<script.yaml_key[d32]>" 
+  - wait 2s 
+  - narrate format:ff "<script.yaml_key[d33]>" 
+  - wait 2s 
+  - run locally opt_loop def:o10 instantly 
+
+# ███ [ Player doesnt know how to spin carpet          ] ███ 
+  how_spin_carpet: 
+  - narrate format:ff "<script.yaml_key[d34]>" 
+  - wait 2s 
+  - run locally opt_loop def:o9 instantly 
+
+# ███ [ Player needs to know how to make carpet again  ] ███ 
+  Explain_Carpet_again: 
+  - narrate format:ff "<script.yaml_key[d39]>" 
+  - flag player interacting_npc:!
+
+# ███ [ Player needs to know how to get wool again     ] ███ 
+  Explain_Wool_again: 
+  # ███ [ has shears ] ███ 
+  - if <player.inventory.contains[shears]>: 
+    - narrate format:ff "<script.yaml_key[d31]>" 
+    - wait 2s 
+    - run locally opt_loop def:o9 instantly 
+  # ███ [ doesn't ] ███ 
+  - else: 
+    - narrate format:ff "<script.yaml_key[d29]>" 
+    - wait 2s 
+    - run locally opt_loop def:o8 instantly 
+
+# ███ [ Player is returning with nothing               ] ███ 
+  Return_With_Nothing: 
+    - run locally opt_loop def:o13 instantly 
+    - narrate "How much more carpet do you need? "
+    - narrate format:ff "Fred the Farmer: You need to collect <def[woolcount]> more carpet. ""
+    - narrate "I haven't got any at the moment. "
+    - narrate format:ff "Fred the Farmer: Ah, well, at least you haven't been eaten "
+    - narrate format:ff "Fred the Farmer: Do you need to be reminded on how to shear sheep? "
+    - if <player.has_flag[expertsheepshearer]>: 
+      - run locally opt_loop def:o13 instantly 
+    - else: 
+      - run locally opt_loop def:o14 instantly 
+
+    # ███ [ Player has wool but no carpet ] ███ 
+      # ███ [ Player is expert ] ███ 
+    - if <player.has_flag[expertsheepshearer]>: 
+      - run locally opt_loop def:o11 instantly 
+      # ███ [ Player is not expert ] ███ 
+    - else: 
+      - run locally opt_loop def:o12 instantly 
+
+# ███ [ Player is returning with less than remaining   ] ███ 
+  Less_Then_Remaining_QuestReturn: 
+    - define woolcount '<player.inventory.quantity[black_carpet]>' 
+    - define remainingwool '<player.flag[qsheepshearerprogress]>' 
+    - narrate  "I have some black carpet for you." 
+    - narrate format:ff "Give 'em here then." 
+    #You give X things of black carpet to Fred the Farmer" 
+    - take i@black_carpet quantity:<def[woolcount]> 
+    - flag player qsheepshearerprogress:-:<def[woolcount]> 
+    - narrate "That's all I've got so far." 
+    - narrate format:ff " I need <el@80.sub[<def[remainingwool]>]> more before I can pay you." 
+    - narrate "Okay, I'll work on it." 
+    - flag player interacting_npc:!
+
+# ███ [ Player is returning with more than remaining   ] ███ 
+  More_Than_Remaining_QuestReturn: 
+    - define woolcount '<player.inventory.quantity[black_carpet]>' 
+    - define remainingwool '<player.flag[qsheepshearerprogress]>' 
+    - narrate  "I have some black carpet for you." 
+    - narrate format:ff " Give 'em here then." 
+    #You give X things of black carpet to Fred the Farmer" 
+    - take i@black_carpet quantity:<def[remainingwool]> 
+    - flag player qsheepshearerprogress:-:<def[remainingwool]> 
+    - narrate  "That's the last of them." 
+    - narrate format:ff " A pleasure doing business with you. You can shear my sheep whenever you want. You could even sell the wool at the Behr-Exchange." 
+    - narrate format:ff " Anyways, I guess I'd better pay you." 
+    - give <player> emerald[quantity:5] 
+    - flag player interacting_npc:!
+    - flag player qsheepshearerprogress:! 
+    - flag player qsheepshearer1:completed 
+    - flag player questpoints:+:2 
+
+
+
+# ████████████████████████████████████████████████████ 
+# ██   Option Dialog 
+# ██ 
+# ██▓▓▒▒░░ 
+# 
+# ███ [ Options should be separated   ] ███ 
+# ███ [ by script path and option     ] ███ 
+# ███ [ text using  /                 ] ███ 
+
+
+# ███ [ Option 01 | Farmer: "What are you doing on my land! You're not the one who keeps leaving all my gates open and letting out all my sheep are you?" ] ███ 
+  o1: 
+  - "farmer_work/<&a>I'm looking for work." 
+  - "farmer_kill_sheep/<&a>I'm here to kill all your sheep!" 
+
+# ███ [ Option 02 | Player: "I'm looking for work." ] ███ 
+# ███ [ Response1 | Farmer: "I need to collect some black wool from my sheep and I'd be much obliged if you could shear them for me. While you're at it, spin the wool into carpet for me too." ] ███ 
+  o2: 
+  - "farmer_qn_black/<&a>Does it have to be black?" 
+  - "farmer_qn_quest/<&a>So, is this a quest?" 
+
+# ███ [ Option 03 | Player: "Does it have to be black?" ] ███ 
+# ███ [ Response1 | Farmer: "Has to be. I'm doing business with some guy after black interior design - something to do with black looking 'cool'. ] ███ 
+  o3: 
+  - "farmer_all_sorts/<&a>It takes all sorts, I suppose." 
+  - "farmer_not_cool/<&a>Black carpet cool? I'm not sure that's true." 
+
+# ███ [ Option 04 | Player: "So, is this a quest?" ] ███ 
+# ███ [ Response2 | Farmer: "No, it isn't. It's work. You do what I say, then you get paid." ] ███ 
+  o4: 
+  - "farmer_not_exciting/<&a>That doesn't sound very exciting." 
+  - "farmer_argument/<&a>That's a quest." 
+  - "farmer_quest_accept/<&a>I'll take the job." 
+
+# ███ [ Option 05 | Player: "That's a quest." ] ███ 
+# ███ [ Response2 | Farmer: "No it ain't." ] ███ 
+  o5: 
+  - "farmer_argument/<&a>Yes it is." 
+  - "farmer_argument_2/<&a>And neither is Ain't." 
+  - "farmer_quest_accept/<&a>Fine; I'll take the job." 
+
+# ███ [ Option 05 | Player: "And neither is Ain't." ] ███ 
+# ███ [ Response2 | Farmer: "Y'all with your grammer, y'ain't gon get me with that schoolin." ] ███ 
+# ███ [           | Farmer: "You want the job or what?" ] ███ 
+  o6: 
+  - "farmer_quest_accept/<&a>Yes." 
+  - "process_ender/<&a>No." 
+
+# ███ [ Option 06 | Player: [O4]: "I'll take the job." / [O5]:"Fine; I'll take the job. ] ███ 
+# ███ [ Response3 | Farmer: "Well, I don't have all day to stand around and gossip. Did you say you knew how to shear sheep?" ] ███ 
+  o7: 
+  - "i_can_shear_sheep/<&a>Of course!" 
+  - "how_shear_sheep/<&a>Actually, no, I don't." 
+  - "Declare_ExpertShearer/<&a>I'm something of an expert, actually." 
+
+# ███ [ Option 07 | Player: "Actually, no, I don't" ] ███ 
+# ███ [ Response2 | Farmer: "You'll need some shears first. Then use those on sheep to shear'm." ] ███ 
+# ███ [ flagged   | Player doesn't have shears ] ███ 
+  o8: 
+  - "how_get_shears/<&a>How do i get shears?" 
+  - "Thats_all_inquire/<&a>That's all I have to do?" 
+
+# ███ [ Option 08 | Player: "Actually, no, I don't" ] ███ 
+# ███ [ Response2 | Farmer: "Well, you're halfway there already. You have some shears in your inventory. Just use those on a sheep to shear it." ] ███ 
+# ███ [ flagged   | Player has shears ] ███ 
+  o9: 
+  - "Thats_all_inquire/<&a>That's all I have to do?" 
+  - "i_can_shear_sheep/<&a>I'll be back then." 
+
+# ███ [ Option 09 | Player: "That's all I have to do?" ] ███ 
+# ███ [ Response0 | Farmer: "Well, once you've collected some wool you'll need to spin it into carpet." ] ███ 
+# ███ [           | Farmer: "Do you know how to spin carpet?" ] ███ 
+  o10: 
+  - "how_spin_carpet/<&a>I don't know how to spin carpet, sorry." 
+  - "i_can_shear_sheep/<&a>Yes." 
+
+# ███ [ Option 10 | Player comes back with wool but no carpet ] ███ 
+# ███ [ Response0 | Farmer: "That wool isn't spun. Maybe you need me to remind you how to spin wool?" ] ███ 
+# ███ [ Flagged   | Player is an expert ] ███ 
+  o11: 
+  - "Explain_Carpet_again/<&a>Yes please." 
+  - "Declare_ExpertShearer/<&a>No, I'm an expert, remember?" 
+
+# ███ [ Option 11 | Player comes back with wool but no carpet ] ███ 
+# ███ [ Response0 | Farmer: "That wool isn't spun. Maybe you need me to remind you how to spin wool?" ] ███ 
+# ███ [ No Flag   | Player isn't an expert ] ███ 
+  o12: 
+  - "Explain_Carpet_again/<&a>Yes please." 
+  - "i_can_shear_sheep/<&a>No." 
+
+# ███ [ Option 12 | Player comes back with no wool or carpet ] ███ 
+# ███ [ Response0 | Farmer: "Do you need to be reminded on how to shear sheep?" ] ███ 
+# ███ [ Flagged   | Player is an expert ] ███ 
+  o13: 
+  - "Explain_Wool_again/<&a>Yes please." 
+  - "Declare_ExpertShearer/<&a>No, I'm an expert, remember?" 
+
+# ███ [ Option 14 | Player comes back with no wool or carpet ] ███ 
+# ███ [ Response0 | Farmer: "Do you need to be reminded on how to shear sheep?" ] ███ 
+# ███ [ No Flag   | Player isn't an expert ] ███ 
+
+  o14: 
+  - "Explain_wool_again/<&a>Yes please." 
+  - "i_can_shear_sheep/<&a>No." 
+
+
+
+# ███ [ New Quest | Repeatable ] ███ 
+# ███ [ StartDial | Farmer: "Well if it ain't the expert sheep shearer." ] ███ 
+# ███ [           | Farmer: "Got another job for ya if you want to help me more with some wool." ] ███ 
+# ███ [ Flagged   | Player is an expert ] ███ 
+  o15: 
+  - "/<&a>I lied, I'm not an expert." 
+  - "/<&a>Yes please." 
+  - "/<&a>Ain't still isn't a word." 
+  - "/<&a>No thanks." 
+
+# ███ [ StartDial | Farmer: "Got another job for ya if you want to help me more with some wool." ] ███ 
+# ███ [ No Flag   | Player isn't an expert ] ███ 
+  o16: 
+  - "/<&a>Yes please." 
+  - "/<&a>It's still a quest." 
+  - "/<&a>No thanks." 
+
+# ███ [ Option 13 | Player: "Ain't still isn't a word." ] ███ 
+# ███ [ Response0 | Farmer: "Yes it is." ] ███ 
+  o17: 
+  - "/<&a>No it's not." 
+  - "/<&a>Whatever - I'll do the job." 
+  - "/<&a>No it's not and Martha is a fat cow!" 
+
+# ███ [ Option 13 | Player: "It's still a quest." ] ███ 
+# ███ [ Response0 | Farmer: "No it ain't." ] ███ 
+  o18: 
+  - "/<&a>Yes it is." 
+  - "/<&a>And ain't still isn't a word." 
+  - "/<&a>Whatever - I'll do the job." 
+  - "/<&a>Yes it is and Martha is a fat cow!" 
+
+
+# ████████████████████████████████████████████████████ 
+# ██   Dialog 
+# ██ 
+# ██▓▓▒▒░░ 
+
+# ███ [ FarmerNPC dialogue ] ███ 
+  d1: "What are you doing on my land! You're not the one who keeps leaving all my gates open and letting out all my sheep are you?" 
+  d2: "Oh? Well, I could do with a bit of help, since you're offering." 
+  d3: "I need to collect some black wool from my sheep and I'd be much obliged if you could shear them for me. While you're at it, spin the wool into carpet for me too." 
+  d4: "Has to be. I'm doing business with some guy after black interior design - something to do with black looking 'cool'." 
+  d5: "Indeed. So if you bring me 40 things'a black carpet, I'm sure I could sort out some sort of payment." 
+  d6: "That's what I thought, but I'm certainly not going to turn down the business. So if you bring me 40 things'a black carpet, I'm sure I could sort out some sort of payment." 
+  d7: "No, it isn't. It's work. You do what I say, then you get paid." 
+  d8: "Well, what do you expect if you ask a farmer?" 
+  d9: "No it ain't." 
+  d10: "Y'all with your grammer, y'ain't gon get me with that schoolin." 
+  d11: "You want the job or what?" 
+  d12: "Good. Hopefully you'll be safe from 'The Thing'! Do you actually know how to shear a sheep?" 
+  d13: "Well, now, no one has ever seen 'The Thing'. That's why we call it 'The Thing', 'cos we don't know what it is." 
+  d14: "Some say it's a black-hearted shape-shifter, hungering for the souls of decent, hardworking folk like me. Slender-man type'a guy. Others say it's just a sheep." 
+  d15: "MARTHA, GRAB M'BOW!" 
+  d16: "Take this you Triangular Pineapple!" 
+  d17: "Take this you Rotten Butt Cheek!" 
+  d18: "Take this you Sour Ketchup Stain!" 
+  d19: "Take this you Chunky Dental Floss!" 
+  d20: "Take this you Unhealthy Soybean!" 
+  d21: "Take this you Mediocre Walnut!" 
+  d22: "Take this you Chunky Cabbage!" 
+  d23: "Take this you Smelly Waffle Iron!" 
+  d24: "Take this you Annoying Fire Hydrant!" 
+  d25: "MARTHA! HE HAS THE HIGHER GROUND!" 
+  d26: "MY LEG!" 
+# ███ [ Quest accept dialog, this can be skipped just leaving ] ███ 
+  d27: "Well, I don't have all day to stand around and gossip. Did you say you knew how to shear sheep?" 
+# ███ [ Option 6 responses ] ███ 
+  d28: "Well, get to it then." 
+# ███ [ Asking for information on how to do the quest ] ███ 
+  d29: "You'll need some shears first. Then use those on sheep to shear'm." 
+  d30: "You can craft'm with two iron ignots, or you can buy'm from the General Store in Lumbridge. That or the Behr Shop's sure to have em somewhere. Just use those on a sheep to shear it." 
+  d31: "Well, you're halfway there already. You have some shears in your inventory. Just use those on a sheep to shear it." 
+  d32: "Well, once you've collected some wool you'll need to spin it into carpet." 
+  d33: "Do you know how to spin carpet?" 
+  d34: "Don't worry, it's quite simple. The nearest crafting table can be found on the second floor of Lumbridge Castle, southeast of here." 
+# ███ [ Other ending dialogs ] ███ 
+  d35: "Course ya are. Well, get to it then." 
+  d36: "You need to collect X more carpet." 
+  d37: "Ah, well, at least you haven't been eaten" 
+# ███ [ Returning with wool but not carpet ] ███ 
+  d38: "That wool isn't spun. How about you go to a crafting table and turn it into a nice set of carpet?" 
+# ███ [ After asking how to make the carpet again ] ███ 
+  d39: "you need to go find a crafting table. You can find one on the second floor of Lumbridge Castle; just turn right and follow the path when leaving my house and you'll find Lumbridge." 
+  #giving carpet to Fred 
+  d40: "Give 'em here then." 
+# ███ [ After giving carpet but not enough to finish ] ███ 
+  d41: "I need X more before I can pay you." 
+# ███ [ Finishing quest dialog ] ███ 
+  d42: "A pleasure doing business with you. You can shear my sheep whenever you want. You could even sell the wool at the Behr-Exchange." 
+  d43: "Anyways, I guess I'd better pay you." 
+# ███ [ Returning dialog ] ███ 
+  d44: "Well if it ain't the expert sheep shearer." 
+# ███ [ Repeatable after-quest: it hasn't been 2 days ] ███ 
+  d45: "I don't got another job for you yet, you're welcome to shear my sheep though. Why don't you check back in a couple days" 
+# ███ [ Repeatable after-quest: eligble for repeatable quest ] ███ 
+  d46: "Got another job for ya if you want to help me more with some wool." 
+  d47: "Great; this time I'm gonna need about X1 X2 carpet." 
+  d48: "Why, you little..." 
+  d49: "Suit yourself." 
+# ███ [ Staff dialogue ] ███ 
+  s1: "Please control your caps lock, Fred." 
+  s1: "CAPS LOCK" 
+# ███ [ MarthaNPC dialogue ] ███ 
+  m1: "What about Fro-Yo honey?!" 
+  m2: "Order a Pineapple Pizza?!" 
+  m3: "There's a leak in the hut?!" 
+  m4: "You said you gonna catch our Bruce Wayne!?" 
+  m5: "Coby Briant on the tele again!?" 
+
