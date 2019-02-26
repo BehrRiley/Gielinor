@@ -1,0 +1,161 @@
+#Dialog on right click
+Fred the Farmer: What are you doing on my land! You're not the one who keeps leaving all my gates open and letting out all my sheep are you?
+    Plyer: I'm looking for work.
+        Fred the Farmer: Oh? Well, I could do with a bit of help, since you're offering.
+        Fred the Farmer: I need to collect some black wool from my sheep and I'd be much obliged if you could shear them for me. While you're at it, spin the wool into carpet for me too.
+            Player: Does it have to be black?
+                Fred the Farmer: Has to be. I'm doing business with some guy after black interior design – something to do with black looking 'cool'.
+                    Player: It takes all sorts, I suppose.
+                        Fred the Farmer: Indeed. So if you bring me 40 things'a black carpet, I'm sure I could sort out some sort of payment.
+                    Player: Black carpet cool? I'm not sure that's true.
+                        Fred he Farmer: That's what I thought, but I'm certainly not going to turn down the business. So if you bring me 40 things'a black carpet, I'm sure I could sort out some sort of payment.
+            #Selection 2, Option 2
+            Player: So, is this a quest?
+                Fred the Farmer: No, it isn't. It's work. You do what I say, then you get paid.
+                    Player: That doesn't sound very exciting.
+                        Fred the Farmer: Well, what do you expect if you ask a farmer?
+                    Player: That's a quest.
+                        Fred the Farmer: No it ain't.
+                            Player: Yes it is.
+                            Player: And neither is Ain't.
+                                Fred the Farmer: Y'all with your grammer, y'ain't gon get me with that schoolin.
+                                Fred the Farmer: You want the job or what?
+                            #Loop1 Option 3
+                            Player: Fine; I'll take the job.
+                    Player: I'll take the job.
+                        #QUEST ACCEPT
+                        Fred the Farmer: Good. Hopefully you'll be safe from 'The Thing'! Do you actually know how to shear a sheep?
+                            Player: What do you mean, 'The Thing'?
+                                Fred the Farmer: Well, now, no one has ever seen 'The Thing'. That's why we call it 'The Thing', 'cos we don't know what it is.
+                                    Fred the Farmer: Some say it's a black-hearted shape-shifter, hungering for the souls of decent, hardworking folk like me. Slender-man type'a guy. Others say it's just a sheep.
+    Player: I'm here to kill all your sheep!
+        Fred the Farmer:MARTHA, GRAB M'BOW!
+        STAFF: Please control your caps lock Fred
+            Martha: What about Fro-Yo honey?!
+                #attack player
+                #RandomResponse1
+                Fred the Farmer: Take this you Triangular Pineapple!
+                    Martha: Order a Pineapple Pizza?!
+                #RandomResponse2
+                Fred the Farmer: Take this you Rotten Butt Cheek!
+                    Martha: There's a leak in the hut?!
+                #RandomResponse3
+                Fred the Farmer: Take this you Sour Ketchup Stain!
+                    Martha: You said you gonna catch our Bruce Wayne!?
+                #RandomResponse4
+                Fred the Farmer: Take this you Chunky Dental Floss!
+                #RandomResponse5
+                Fred the Farmer: Take this you Unhealthy Soybean!
+                #RandomResponse6
+                Fred the Farmer: Take this you Mediocre Walnut!
+                #RandomResponse7
+                Fred the Farmer: Take this you Chunky Cabbage!
+                #RandomResponse8
+                Fred the Farmer: Take this you Annoying Fire Hydrant!
+                    Martha: Coby Briant on the tele again!?
+                #RandomResponse9
+                Fred the Farmer: Take this you Smelly Waffle Iron!
+                    #if fred takes damage
+                    Fred the Farmer:MARTHA! HE HAS THE HIGHER GROUND!
+                        #smite but no damage
+                        STAFF: CAPS LOCK
+                            Martha: You're gonna take a nap on the dock?! 
+                                #If dies
+                                Fred the Farmer: MY LEG!
+                                #smite full health/kill fred
+
+#QUESTACCEPT DIALOG SKIPABLE
+Fred the Farmer: Well, I don't have all day to stand around and gossip. Did you say you knew how to shear sheep?
+    Player: Of course!
+        Fred the Farmer: Well, get to it then.
+    Player: Actually, no, I don't.
+        Fred the Farmer: You'll need some shears first. Then use those on sheep to shear'm.
+            Player: How do i get shears?
+                Fred the Farmer: You can craft'm with two iron ignots, or you can buy'm from the General Store in Lumbridge. That or the Behr Shop's sure to have em somewhere. Just use those on a sheep to shear it.
+        #if player has shears
+        Fred the Farmer: Well, you're halfway there already. You have some shears in your inventory. Just use those on a sheep to shear it.
+            Player: That's all I have to do?
+                Fred the Farmer: Well, once you've collected some wool you'll need to spin it into carpet.
+                Fred the Farmer: Do you know how to spin carpet?
+                    Player: I don't know how to spin carpet, sorry.
+                        Fred the Farmer: Don't worry, it's quite simple. The nearest crafting table can be found on the second floor of Lumbridge Castle, southeast of here.
+                    Player: Of course.
+                        Fred the Farmer: Well, get to it then.
+    Player: I'm something of an expert, actually.
+        Fred the Farmer: Course ya are. Well, get to it then.
+
+#Returning without all or some necessary items
+    #if player has no wool or carpet
+    Player: How much more carpet do you need?
+        Fred the Farmer: You need to collect X more carpet.
+            Player: I haven't got any at the moment.
+                Fred the Farmer: Ah, well, at least you haven't been eaten
+
+    #if player has wool but no carpet
+    Player: How much more carpet do you need?
+        Fred the Farmer: You need to collect X more carpet.
+            Player: I've got some wool. I've not managed to make it into carpet, though.
+                Fred the Farmer: That wool isn't spun. How about you go to a crafting table and turn it into a nice set of carpet? Maybe you need me to remind you how to spin wool?
+                    Player: No, I'm an expert, remember?
+                Fred the Farmer: Well, go find a crafting table then. You can find one on the second floor of Lumbridge Castle; just turn right and follow the path when leaving my house and you'll find Lumbridge.
+                    Player: Yes please.
+                        #If player doesn't have shears
+                        Fred the Farmer: You'll need some shears first. Then use those on sheep to shear'm.
+                            Player: How do i get shears?
+                                Fred the Farmer: You can craft'm with two iron ignots, or you can buy'm from the General Store in Lumbridge. That or the Behr Shop's sure to have em somewhere. Just use those on a sheep to shear it.
+                        #if player has shears
+                        Fred the Farmer: Well, you're halfway there already. You have some shears in your inventory. Just use those on a sheep to shear it.
+                            Player: That's all I have to do?
+                                Fred the Farmer: Well, once you've collected some wool you'll need to spin it into carpet.
+                                Fred the Farmer: Do you know how to spin carpet?
+                                    Player: I don't know how to spin carpet, sorry.
+                                        Fred the Farmer: Don't worry, it's quite simple. The nearest crafting table can be found on the second floor of Lumbridge Castle, southeast of here. 
+                                    Player: Yes.
+                                        Fred the Farmer: Well, get to it then.
+
+    #if player has some carpet
+    Player: I have some black carpet for you.
+        Fred: Give 'em here then.
+        #You give X things of black carpet to Fred the Farmer
+            Player: That's all I've got so far.
+                Fred: I need X more before I can pay you.
+                    Player: Okay, I'll work on it.
+                    
+    #If player has wool but no carpet
+    Fred the Farmer: That wool isn't spun. How about you go to a crafting table and turn it into a nice ball of wool? Maybe you need me to remind you how to spin wool?
+
+#Completing the quest
+Player: I have some black carpet for you.
+    Fred the Farmer: Give 'em here then.
+        Player: That's the last of them.
+            Fred the Farmer: A pleasure doing business with you. You can shear my sheep whenever you want. You could even sell the wool at the Behr-Exchange.
+            Fred the Farmer: Anyways, I guess I'd better pay you.
+            #Fred gives you 5 emeraldz
+
+#Returning after finishing Quest
+#Original NOT repeatable
+#New Quest/Repeatable Option
+Fred the Farmer: Well if it ain't the expert sheep shearer.
+    #If <48 hours after completion of original quest OR this quest
+    Fred the Farmer: I don't got another job for you yet, you're welcome to shear my sheep though. Why don't you check back in a couple days.
+    #if >48 hours after competion of iriginal quest OR this quest
+    Fred the Farmer: Got another job for ya if you want to help me more with some wool.
+        #Selection 11, Option 1, AcceptQuest2
+        Player: Yes please.
+            # X1 being random number (21-81), preferably in multiples of 6 to 12; X2 being one of any color wool
+            Fred the Farmer: Great; this time I'm gonna need about X1 X2 carpet.
+        #Selection 11, Option 2
+            Player: It's still a quest.
+                Fred the Farmer: No it ain't.
+                    Player: Whatever - I'll do the job.
+                    Player: Yes it is.
+                    Player: Yes it is and Martha is a fat cow!
+                        Fred the Farmer: Why, you little...
+                      
+#Completing the RepeatQuest
+Player: I have some X2 carpet for you.
+    Fred the Farmer: Give 'em here then.
+        Player: That's the last of them.
+            Fred the Farmer: A pleasure doing business with you. You can shear my sheep whenever you want. You could even sell the wool at the Behr-Exchange.
+            Fred the Farmer: Anyways, I guess I'd better pay you.
+            #Fred gives you 1 emerald
