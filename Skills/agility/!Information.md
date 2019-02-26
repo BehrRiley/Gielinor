@@ -7,7 +7,7 @@ Agility is a skill that allows negation of fall damage through passive and activ
 Tactical Roll is an active skill activated by sneaking while falling. It is only effective if the sneaking is started 20 blocks or fewer before impact. Every level, the chance for a successful Graceful Roll is increased by 1%, with a cap of 99% at level 99. It can negate up to 14 hitpoints, or 7 hearts.
 
 ### Shortcuts
-Notable locations will have special obsticals that can only be overcame with agility requirements, and often time ranged or strength requirements as well. This includes things like wall scaling either bare-handed or with a grapple, squeezing through narrow cracks and holes and other agile activities.
+Notable locations will have special obstacles that can only be overcame with agility requirements, and often time ranged or strength requirements as well. This includes things like wall scaling either bare-handed or with a grapple, squeezing through narrow cracks and holes and other agile activities.
 
 ## Passive Abilities
 ### Roll
