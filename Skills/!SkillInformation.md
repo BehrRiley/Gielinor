@@ -44,3 +44,38 @@ Using ranged weapons (ie bows, crossbows when 1.14 comes out) `shift+right-click
 **Special**: This is going to be for ability based firing, similar to "Serrated Strikes" with McMMO. Special abilities will be toggle-able skills earned with higher ranged levels (ie; explosive arrows, multi-shots, poison/enchanted arrows, etc)
 
 *Ranged attacks require arrows/ammunition, and you gain `<Ranged>` experiece based on the amount of hit-points dealt.
+
+### Magic Skill
+
+Using magical weapons (ie staffs, wands) `shift+right-clicking` will open the interface to select your **<combat style>**. This is a very unique ranged ability, which lets you cast spells that can be equip through your spellbook(s). Mechanics are very unique, and you actually are required to *learn how to use them before you can access them* fully at the Wizard Training Arena.
+
+**Combat Styles**: Accurate  |  Rapid  |  Defensive
+
+**Accurate**: Cast spells more accurately.
+**Rapid>*: Spells can be fired quicker, bear in mind your computers performance capability with particles, with a lesser accurate firing rate.
+**Defensive**: A normal firing rate similar to accurate, however an increased accuracy is substituted with a defensive bonus instead, making you harder to hit.
+
+*Magic spells require runes to cast, and you gain experience in `<Magic>` on a base-experience-chart for the spell, as well as additional experience for every hit-point you deal.
+
+
+## Support Skills
+
+### Agility
+
+Experienced gained by taking fall damage, performing agile abilities, using agility courses, tracks and shortcuts. Agility will increase player speed at a minuscule rate, reduce fall damage and give a chance to negate fall damage completely with a roll effect.
+
+### Thieving
+
+Allows players to steal from market stalls and chests and pickpocket NPC's by sneaking and right-clicking them.
+
+### Slayer
+
+Slayer Master NPC's will assign special monsters as tasks, which players can seek out and kill a number based on task of the enemy in the location for Slayer Experience. Higher slayer is required for more vicious and skillful enemies.
+
+
+
+
+
+
+
+
