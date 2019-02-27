@@ -1,0 +1,75 @@
+# ████████████████████████████████████████████████████
+# ██   Active Ability | Tree Feller
+# ██   
+# ██   EXPERIMENTAL SCRIPT
+# ██   
+# ██   
+# ██   
+# ██ [ World Script ] ██
+Woodcutting_Active_Treefeller:
+  type: world
+  debug: false
+  events:
+  
+  
+TreeFellerProc:
+  type: procedure
+  debug: false
+  definitions: BlockLocation|BlockMaterial
+  script:
+    - define TreeBase <def[BlockLocation]>
+    - define TreeType <def[BlockMaterial].before[_log]>
+    - define TreeType <def[BlockMaterial].before[_wood]>
+
+    #██ Cuboids horizontal to Base to determine if large-tree ██#
+    - define TreeBaseX cu@<def[BlockLocation].add[1,0,0].sub[1,0,0]>
+    - define TreeBaseZ cu@<def[BlockLocation].add[0,0,1].sub[0,0,1]>
+    - define TreeBaseC cu@<def[TreeBaseX]>|<def[TreeBaseZ]>
+
+    #██ Cuboids horizontal to Base to determine if too-large-tree ██#
+    - if <cu@<def[BlockLocation].add[2,0,0].sub[0,0,0].blocks[<def[BlockMaterial]>].size> > 2 || <cu@<def[BlockLocation].add[0,0,2].sub[0,0,0].blocks[<def[BlockMaterial]>].size> > 2 || <cu@<def[BlockLocation].add[0,0,0].sub[2,0,0].blocks[<def[BlockMaterial]>].size> > 2 || <cu@<def[BlockLocation].add[0,0,0].sub[0,0,2].blocks[<def[BlockMaterial]>].size> > 2:
+      - determine <def[BlockMaterial]>
+
+    #██ Cuboids around Base to determine Size ██#
+    #██   {-X|Z} | {X|Z} | {-X|-Z} | {X|-Z}   ██#
+    - define TreeBase1 cu@<def[TreeBase].add[-1,0,1]>|<def[TreeBase]>
+    - define TreeBase2 cu@<def[TreeBase].add[1,0,1]>|<def[TreeBase]>
+    - define TreeBase3 cu@<def[TreeBase].add[-1,0,-1]>|<def[TreeBase]>
+    - define TreeBase4 cu@<def[TreeBase].add[1,0,-1]>|<def[TreeBase]>
+
+    - define TreeCollection li@
+    - repeat 4:
+      - foreach <def[TreeBase]><def[Value]>:
+        - if <def[value].blocks[<def[BlockMaterial]>].size.is[MORE].than[3]>:
+          - define TreeSize <li@>
+          - Define TreeCollection <def[TreeCollection].include[TreeSize]>
+          
+#on player breaks block (in <area>) 
+#on player breaks <material> (in <area>) 
+#on player breaks block (in <area>) 
+#on player breaks <material> (in <area>) 
+#      <context.location> returns the dLocation the block was broken at. 
+#      <context.material> returns the dMaterial of the block that was broken. 
+#      <context.cuboids> DEPRECATED. 
+#      <context.xp> returns how much XP will be dropped. 
+
+
+
+TreeFellerCall:
+  type: world
+  debug: false
+  events:
+    on player breaks block:
+      - define TreeStuff li@ACACIA_LOG|BIRCH_LOG|DARK_OAK_LOG|JUNGLE_LOG|OAK_LOG|SPRUCE_LOG
+      - if <context.material.contains_any[<def[TreeStuff]>]>:
+        - Define Tree <proc[TreeFellerProc].context[<context.location>|<context.material>]>
+    - if <def[TreeType].contains_any[DARK_OAK|JUNGLE|SPRUCE|]>:
+      - if <def[TreebaseX].blocks.contains_any[<def[BlockMaterial]>]> || <def[TreebaseZ].blocks.contains_any[<def[BlockMaterial]>]>:
+        - foreach <def[TreeBaseC]>:
+          #██ is the tree wider than 2 blocks? ██#
+          - if <def[value].points_between[<def[TreeBase]>].distance[1].is[MORE].than[1]>:
+            - determine <def[TreeBase]>
+          #██ is the tree touching anything? ██#
+          - if <def[]>:
+            - define Tree 
+            - determine <def[TreeBase]>
