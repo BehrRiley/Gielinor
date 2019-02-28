@@ -1,0 +1,9 @@
+Agility_Speed:
+  type: task
+  debug: false
+  events:
+    on system time hourly:
+    - foreach <server.list_players_online>:
+      - define Agility <player.flag[AgilityLevel]||1>
+      - adjust <def[value]> walk_speed:<el@.001.mul[<def[Agility]>].add[.201]>
+      - announce <el@0.001mul[<def[Agility]>].add[.201] 
