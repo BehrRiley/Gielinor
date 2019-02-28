@@ -7,79 +7,57 @@
 # ██   it will be activated simply by taking fall damage. When activated,
 # ██   it can negate up to 7 hitpoints, or 3.5 hearts.
 # ██   
+# ██   Active Ability | Tactical Roll
+# ██   
+# ██   Tactical Roll is an active skill activated by
+# ██   sneaking while falling. It is only effective
+# ██   if the sneaking is started 20 blocks or fewer
+# ██   before impact. Every level, the chance for a
+# ██   successful Graceful Roll is increased by 1%,
+# ██   with a cap of 99% at level 99.
+# ██   It can negate up to 14 hitpoints, or 7 hearts.
+# ██   
 # ██ [ World Script ] ██
-Agility_Passive_Roll:
+Agility_Rolls:
   type: world
   debug: false
+  rollevent:
+    - define Fall <proc[Rolled].context[<context.entity>|<context.damage>]>
+    - narrate "*Rolled*"
+    - determine <def[Fall]>
   events:
+    on entity damaged by Fall:
+      - if <player.is_sneaking>:
+        - if <player.has_flag[HasTacticallyRolled]>:
+          - inject locally rollevent instantly
+        - define Fall <proc[TacticalRoll].context[<context.entity>|<context.damage>]>
+        - flag player HasTacticallyRolled duration:1m
+        - narrate "*Tactically Rolled*"
+        - determine <def[Fall]>
+      - inject locally rollevent instantly
 
+TacticalRoll:
+  type: procedure
+  debug: false
+  definitions: EntityA|Damage
+  script:
+    #██ Entity [A] Agility Level
+    - define Agility <def[EntityA].flag[AgilityLevel]||1>
+    - define Fall <def[Agility].mul[.01].add[.01]>
+    - if <util.random.decimal> < <def[Fall]>:
+      - if <def[Damage]> > 14:
+        - determine <def[Damage].sub[14]>
+      - determine cancelled
 
-
-
-#%%%   ███ [ Notes ] ███
-#%%%   Anything in [brackets] is required... you MUST put it there. 
-#%%%   Anything in (parenthesis) is optional... you only need to put it there if you want to. 
-#%%%   Anything in {braces} is default... the command will just assume this if no argument is actually typed. 
-#%%%   Anything in <> is non-literal... you must change what is inside of it. 
-#%%%   Anything outside of <> is literal... you must put it exactly as-is. 
-
-# ███ [ Notable Events ] ███
-#+++   [*]: on entity   damaged (by <cause>) (in <area>): 
-#+++   AKA: on <entity> damaged (by <cause>) (in <area>), 
-#+++   AKA: on  entity  damages     entity   (in <area>), 
-#+++   AKA: on  entity  damages    <entity>  (in <area>), 
-#+++   AKA: on  entity  damaged by  entity   (in <area>), 
-#+++   AKA: on  entity  damaged by <entity>  (in <area>), 
-#+++   AKA: on <entity> damages     entity   (in <area>), 
-#+++   AKA: on <entity> damaged by  entity   (in <area>), 
-#+++   AKA: on <entity> damaged by <entity>  (in <area>), 
-#+++   AKA: on <entity> damages    <entity>  (in <area>)
-#+++   Triggered: when an entity is damaged. 
-#+++   This event can be cancelled. This adds 'context.cancelled', and determines 'CANCELLED' and 'CANCELLED:FALSE'
-#+++   Has linked player: when the damager or damaged entity is a player. Cannot be both.
-#+++   Has linked NPC:    when the damager or damaged entity is an NPC. Cannot be both.
-#+++   Context: <context.entity> returns the dEntity that was damaged.
-#+++   Context: <context.damager> returns the dEntity damaging the other entity, if any.
-#+++   Context: <context.cause> returns the an Element of reason the entity was damaged - see '!language damage cause' for causes.
-#+++   Context: <context.damage> returns an Element(Decimal) of the amount of damage dealt.
-#+++   Context: <context.final_damage> returns an Element(Decimal) of the amount of damage dealt, after armor is calculated.
-#+++   Context: <context.projectile> returns a dEntity of the projectile, if one caused the event.
-#+++   Context: <context.damage_TYPE> returns the damage dealt by a specific damage type where TYPE can be any of: BASE, HARD_HAT, BLOCKING, ARMOR, RESISTANCE, MAGIC, ABSORPTION.
-#+++   Switch: with <item>
-#+++   Determine: Element(Decimal) to set the amount of damage the entity receives.
-
-# ███ [ Notable Commands ] ███
-# ███ [ Flag | {Memory}  ] ███
-#+++ [core command] flag: Sets or modifies a flag on the player, NPC, entity, or server.
-#+++ Syntax: - flag ({player}/npc/server/<entity>) 
-#+++                [<name>([<#>])](:<action>)[:<value>] 
-#+++                (duration:<value>)
-#+++ Usage: Use to create or set a flag on a player.
-#+++   - flag player playstyle:agressive
-#+++ Usage: Use to flag an npc with a given tag value.
-#+++   - flag npc location:<npc.location>
-#+++ Usage: Use to apply mathematical changes to a flag's value on a unique object.
-#+++   - flag <context.damager> damage_dealt:+:<context.damage>
-
-# ███ [ Hurt | {Damages} ] ███
-#+++ [entity command] hurt: Hurts the player or a list of entities.
-#+++ Syntax: - hurt (<#.#>) 
-#+++                ({player}/<entity>|...) 
-#+++                (cause:<cause>)
-#+++ Usage: Use to hurt the player for 1 HP.
-#+++   - hurt
-#+++ Usage: Use to hurt the NPC for 5 HP.
-#+++   - hurt 5 <npc>
-#+++ Usage: Use to cause the player to hurt the NPC for all its health (if unarmored).
-#+++   - hurt <npc.health> <npc> cause:CUSTOM source:<player>
-#+++ Related Tags:
-#+++ <e@entity.health> 
-#+++ <e@entity.last_damage.amount> 
-#+++ <e@entity.last_damage.cause> 
-#+++ <e@entity.last_damage.duration> 
-#+++ <e@entity.last_damage.max_duration> 
-#+++ Damage Causes:
-#+++     CUSTOM: Custom damage.
-#+++     FALL: Damage caused when an entity falls a distance greater than 3 blocks
-#+++     FALLING_BLOCK: Damage caused by being hit by a falling block which deals damage
-#+++     FLY_INTO_WALL: Damage caused when an entity runs into a wall.
+Rolled:
+  type: procedure
+  debug: false
+  definitions: EntityA|Damage
+  script:
+    #██ Entity [A] Agility Level
+    - define Agility <def[EntityA].flag[AgilityLevel]||1>
+    - define Fall <def[Agility].mul[.005].add[.005]>
+    - if <util.random.decimal> < <def[Fall]>:
+      - if <def[Damage]> > 14:
+        - determine <def[Damage].sub[14]>
+      - determine cancelled
