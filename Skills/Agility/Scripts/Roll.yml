@@ -8,28 +8,51 @@
 # ██   it can negate up to 7 hitpoints, or 3.5 hearts.
 # ██   
 # ██ [ World Script ] ██
-Agility_Passive_Roll:
+Agility_Rolls:
   type: world
-  debug: true
+  debug: true 
+  rollevent:
+    - define Fall <proc[Rolled].context[<context.entity>|<context.damage>]>
+    - narrate "*Rolled*"
+    - determine <def[Fall]>
   events:
     on entity damaged by Fall:
-      - define Fall <proc[Falldmg].context[<context.entity>]>
-      - if <def[Fall]> == Rolled:
-        - determine cancelled
-      - queue clear
+      - if <player.is_sneaking>:
+        - if <player.has_flag[HasTacticallyRolled]>:
+          - inject locally rollevent instantly
+        - define Fall <proc[TacticalRoll].context[<context.entity>|<context.damage>]>
+        - flag player HasTacticallyRolled duration:1m
+        - narrate "*Tactically Rolled*"
+        - determine <def[Fall]>
+      - inject locally rollevent instantly
 
 
-Falldmg:
+TacticalRoll:
   type: procedure
   debug: true
-  definitions: EntityA
+  definitions: EntityA|Damage
+  script:
+    #██ Entity [A] Agility Level
+    - define Agility <def[EntityA].flag[AgilityLevel]||1>
+    - define Fall <def[Agility].mul[.01].add[.01]>
+    - if <util.random.decimal> < <def[Fall]>:
+      - if <def[Damage]> > 14:
+        - determine <def[Damage].sub[14]>
+      - determine cancelled
+
+
+Rolled:
+  type: procedure
+  debug: true
+  definitions: EntityA|Damage
   script:
     #██ Entity [A] Agility Level
     - define Agility <def[EntityA].flag[AgilityLevel]||1>
     - define Fall <def[Agility].mul[.005].add[.005]>
     - if <util.random.decimal> < <def[Fall]>:
-      - determine "ROLLED"
-    - determine "HIT"
+      - if <def[Damage]> > 14:
+        - determine <def[Damage].sub[14]>
+      - determine cancelled
     
 # Finished Script
 # ~Inde/Behr
