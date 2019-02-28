@@ -7,6 +7,10 @@
 # ██   
 # ██ [ World Script ] ██
 Agility_Speed:
-type: world
-debug: true
-events:
+  type: task
+  debug: false
+  events:
+    on system time hourly:
+    - foreach <server.list_players_online>:
+      - define Agility <player.flag[AgilityLevel]||1>
+      - adjust <def[value]> walk_speed:<el@.001.mul[<def[Agility]>].add[.201]>
