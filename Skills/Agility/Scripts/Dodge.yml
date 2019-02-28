@@ -10,9 +10,25 @@ Agility_Passive_Dodge:
   type: world
   debug: false
   events:
+    on entity damages entity:
+      - define Dodged <proc[DodgeProc].context[<context.damager>]>
+      - if <def[Dodged]> == Dodged:
+        - determine cancelled
+      - queue clear
 
 
-
+DodgeProc:
+  type: procedure
+  debug: true
+  definitions: EntityA
+  script:
+    #██ Entity [A] Agility Level
+    - define Agility <def[EntityA].flag[AgilityLevel]||1>
+    - define DodgeChance <def[Agility].mul[.002].add[.002]>
+    - if <util.random.decimal> < <def[DodgeChance]>:
+      - determine "DODGED"
+    - determine "HIT"
+    
 
 #%%%   ███ [ Notes ] ███
 #%%%   Anything in [brackets] is required... you MUST put it there. 
