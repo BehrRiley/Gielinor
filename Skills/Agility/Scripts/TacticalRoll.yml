@@ -10,10 +10,29 @@
 # ██   It can negate up to 14 hitpoints, or 7 hearts.
 # ██   
 # ██ [ World Script ] ██
-Agility_Passive_Dodge:
+Agility_Active_Tactical_Roll:
   type: world
-  debug: false
+  debug: true 
   events:
+    on entity damaged by Fall:
+      if<player.is_sneaking>
+        - define Fall <proc[Falldmg].context[<context.entity>]>
+        - if <def[Fall]> == Rolled:
+          - 
+        - queue clear
+
+
+Falldmg:
+  type: procedure
+  debug: true
+  definitions: EntityA
+  script:
+    #██ Entity [A] Agility Level
+    - define Agility <def[EntityA].flag[AgilityLevel]||1>
+    - define Fall <def[Agility].mul[.01].add[.01]>
+    - if <util.random.decimal> < <def[Fall]>:
+      - determine "ROLLED"
+    - determine "HIT"
 
 
 
