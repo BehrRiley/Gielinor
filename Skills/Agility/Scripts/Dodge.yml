@@ -24,14 +24,10 @@ Agility_Passive_Dodge:
 # ███ [ Notable Events ] ███
 #+++   [*]: on entity   damaged (by <cause>) (in <area>): 
 #+++   AKA: on <entity> damaged (by <cause>) (in <area>), 
-#+++   AKA: on  entity  damages     entity   (in <area>), 
-#+++   AKA: on  entity  damages    <entity>  (in <area>), 
+#+++   AKA: on  entity  damages     entity   (in <area>),  
 #+++   AKA: on  entity  damaged by  entity   (in <area>), 
-#+++   AKA: on  entity  damaged by <entity>  (in <area>), 
 #+++   AKA: on <entity> damages     entity   (in <area>), 
 #+++   AKA: on <entity> damaged by  entity   (in <area>), 
-#+++   AKA: on <entity> damaged by <entity>  (in <area>), 
-#+++   AKA: on <entity> damages    <entity>  (in <area>)
 #+++   Triggered: when an entity is damaged. 
 #+++   This event can be cancelled. This adds 'context.cancelled', and determines 'CANCELLED' and 'CANCELLED:FALSE'
 #+++   Has linked player: when the damager or damaged entity is a player. Cannot be both.
@@ -40,10 +36,6 @@ Agility_Passive_Dodge:
 #+++   Context: <context.damager> returns the dEntity damaging the other entity, if any.
 #+++   Context: <context.cause> returns the an Element of reason the entity was damaged - see '!language damage cause' for causes.
 #+++   Context: <context.damage> returns an Element(Decimal) of the amount of damage dealt.
-#+++   Context: <context.final_damage> returns an Element(Decimal) of the amount of damage dealt, after armor is calculated.
-#+++   Context: <context.projectile> returns a dEntity of the projectile, if one caused the event.
-#+++   Context: <context.damage_TYPE> returns the damage dealt by a specific damage type where TYPE can be any of: BASE, HARD_HAT, BLOCKING, ARMOR, RESISTANCE, MAGIC, ABSORPTION.
-#+++   Switch: with <item>
 #+++   Determine: Element(Decimal) to set the amount of damage the entity receives.
 
 # ███ [ Notable Commands ] ███
