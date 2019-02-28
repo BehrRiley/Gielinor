@@ -7,10 +7,20 @@
 # ██   it will be activated simply by taking fall damage. When activated,
 # ██   it can negate up to 7 hitpoints, or 3.5 hearts.
 # ██   
+# ██   Active Ability | Tactical Roll
+# ██   
+# ██   Tactical Roll is an active skill activated by
+# ██   sneaking while falling. It is only effective
+# ██   if the sneaking is started 20 blocks or fewer
+# ██   before impact. Every level, the chance for a
+# ██   successful Graceful Roll is increased by 1%,
+# ██   with a cap of 99% at level 99.
+# ██   It can negate up to 14 hitpoints, or 7 hearts.
+# ██   
 # ██ [ World Script ] ██
 Agility_Rolls:
   type: world
-  debug: true 
+  debug: false
   rollevent:
     - define Fall <proc[Rolled].context[<context.entity>|<context.damage>]>
     - narrate "*Rolled*"
@@ -26,10 +36,9 @@ Agility_Rolls:
         - determine <def[Fall]>
       - inject locally rollevent instantly
 
-
 TacticalRoll:
   type: procedure
-  debug: true
+  debug: false
   definitions: EntityA|Damage
   script:
     #██ Entity [A] Agility Level
@@ -40,10 +49,9 @@ TacticalRoll:
         - determine <def[Damage].sub[14]>
       - determine cancelled
 
-
 Rolled:
   type: procedure
-  debug: true
+  debug: false
   definitions: EntityA|Damage
   script:
     #██ Entity [A] Agility Level
@@ -53,6 +61,3 @@ Rolled:
       - if <def[Damage]> > 14:
         - determine <def[Damage].sub[14]>
       - determine cancelled
-    
-# Finished Script
-# ~Inde/Behr
