@@ -1,13 +1,9 @@
 # ███████████████████████████████████████████████████████████
 # ██   **Custom script paths to be injected/run**
-# ██ 
-# ██   Use this as a template
-# ██   Required per NPC; can be used for multiple NPC's
-# ██   Assign "npcname" to the npc you would like to use 
-# ██   /npc assignment --set npcname 
+# ██   /npc assignment --set Reldo 
 # ██ 
 # ██ [ NPC Assignment ] ██
-npcname: 
+Reldo: 
   type: assignment 
   debug: true 
   actions: 
@@ -20,7 +16,7 @@ npcname:
 # ██ [ Beginning Script Process            ] ██
 # ██ [ Quest Requirements/logic begin here ] ██
     on click:
-      - if !<player.has_flag[npcname_stage]>:
+      - if !<player.has_flag[Reldo_stage]>:
         - flag player interacting_npc:<queue.script>
       - inject locally NPC_Initiation_script
 
@@ -42,10 +38,7 @@ npcname:
 
 
 # ███████████████████████████████████████████████████████████
-# ██   Custom script paths to be injected/run 
-# ██   
-# ██   These are where the scripts go that options
-# ██   are clicked to run, or run on events
+# ██   Custom script paths to be injected/run
 # ██ 
 # ██   [ Selection Process Selection ]
   NPC_Initiation_script:
@@ -53,19 +46,9 @@ npcname:
   - wait 2s
   - run locally opt_loop def:o1 instantly
 
-  Script_Process_Hello:
-  - narrate format:cgf "<script.yaml_key[d2]>"
-
-  Script_Process_Goodbye:
-  - narrate format:cgf "<script.yaml_key[d3]>"
-
 
 # ███████████████████████████████████████████████████████████
 # ██   Custom script paths to be injected/run 
-# ██ 
-# ██   These are the options that appear in chat.
-# ██   These must be separated by Script / Text
-# ██   Usage: "ScriptName/Message"
 # ██ 
 # ██   [ Option Selections ]
   o1: 
@@ -75,12 +58,6 @@ npcname:
 
 # ███████████████████████████████████████████████████████████
 # ██   Dialog Transcripts to be narrated
-# ██ 
-# ██   Simple, easy key names are essential for
-# ██   clean and easy to read scripts
-# ██   this is basically a library for dialog
 # ██
 # ██ [ NPC dialogue ] ██
   d1: "This is my first dialog, Hello."
-  d2: "Wonderful weather we<&sq>re having."
-  d3: "Goodbye"
