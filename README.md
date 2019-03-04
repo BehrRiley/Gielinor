@@ -17,6 +17,7 @@ Custom equipment will be able to return to the Overworld, however nothing else w
 - **Behr Riley [Behr]** | [Plugin Development]
 - **Indestructoyed [Inde]** | [Plugin Development]
 - **Ant_0321 [Ant]** | [Plugin Development]
+- **VannaERR40$ [Vanna]** | [Plugin Development]
 - **Mobamba [RobbyBobby]** | [Plugin Development]
 - **MLGxFOBx571 [Red Machete]** | [Plugin Development]
 
