@@ -1,0 +1,30 @@
+# ███ [ Returns the xp needed for the next level ] ███ 
+# ███ [ - run add_xp def:#|skill instantly       ] ███ 
+# ███ [           where <#> is the experience    ] ███ 
+# ███ [             where <skill> is the skill   ] ███ 
+xp_calc:
+    type: procedure
+    definitions: lvl
+    script:
+        - define pow_term <def[lvl].div[7]>
+        - define mul_term <el@300.mul[<el@2.power[<def[pow_term]>]>]>
+        - determine <def[lvl].add[<def[mul_term]>].div[4].round_down>
+
+# Grants the provided amount of xp to a player
+add_xp:
+  type: task
+  definitions: xp|skill
+  script:
+      - if !<player.has_flag[<def[skill]>ExpReq]>:
+          - flag player <def[skill]>ExpReq:0
+      - if !<player.has_flag[<def[skill]>Level]>:
+          - flag player <def[skill]>Level:1
+      - while <def[xp]> > 0:
+          - define xp_req <proc[xp_calc].context[<player.flag[<def[skill]>Level]>]>
+          - define to_add <def[xp_req].sub[<player.flag[<def[skill]>ExpReq]>]>
+          - define xp <def[xp].sub[<def[to_add]>]>
+          - if <def[xp]> >= 0:
+              - flag player <def[skill]>Level:++
+              - flag player <def[skill]>ExpReq:0
+          - else:
+              - flag player <def[skill]>ExpReq:+:<def[xp].add[<def[to_add]>]>
