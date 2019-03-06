@@ -59,7 +59,7 @@ Reldo:
   - wait 2s
   - run locally opt_loop def:o2 instantly
   ContinueQuest:
-  - narrate "Reldo pets his fur pelts and ponders..."
+  - narrate "Reldo strokes his book and ponders..."
   - wait 5s
   - narrate format:cgf "<script.yaml_key[d3]>"
   - flag player Quest.SoA.Stage:1
