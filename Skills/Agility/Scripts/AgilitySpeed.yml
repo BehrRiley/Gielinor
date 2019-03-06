@@ -7,7 +7,7 @@
 # ██   
 # ██ [ World Script ] ██
 Agility_Speed:
-  type: task
+  type: world
   debug: false
   events:
     on system time hourly:
