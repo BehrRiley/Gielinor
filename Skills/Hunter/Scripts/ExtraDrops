@@ -1,0 +1,20 @@
+# Adds more drops to passive mobs that you kill based on hunter level.
+
+Hunter_Drop:
+  type: world
+  debug: true
+  dropTable:
+    cow: leather
+    chicken: feather
+    sheep: wool
+    rabbit: rabbit_hide
+
+  events:
+    on entity killed by entity:
+      - if !<server.list_players_online.contains[<context.damager>]>:
+        - queue clear
+      - define Hunter <player.flag[hunterlevel]||1>
+      - define ExtraDrops <def[Hunter].div[30].round_down>
+      - if <def[ExtraDrops].is[LESS].than[1]>:
+        - queue clear
+      -  drop <script.yaml_key[droptable.<context.entity.entity_type>]> <context.entity.location> <def[ExtraDrops]>
