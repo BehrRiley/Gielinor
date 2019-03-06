@@ -28,3 +28,21 @@ add_xp:
               - flag player <def[skill]>ExpReq:0
           - else:
               - flag player <def[skill]>ExpReq:+:<def[xp].add[<def[to_add]>]>
+              
+add_xp_nostring:
+  type: task
+  definitions: xp|skill|player
+  script:
+      - if !<def[player].has_flag[<def[skill]>ExpReq]>:
+          - flag <def[player]> <def[skill]>ExpReq:0
+      - if !<def[player].has_flag[<def[skill]>Level]>:
+          - flag <def[player]> <def[skill]>Level:1
+      - while <def[xp]> > 0:
+          - define xp_req <proc[xp_calc].context[<def[player].flag[<def[skill]>Level]>]>
+          - define to_add <def[xp_req].sub[<def[player].flag[<def[skill]>ExpReq]>]>
+          - define xp <def[xp].sub[<def[to_add]>]>
+          - if <def[xp]> >= 0:
+              - flag <def[player]> <def[skill]>Level:++
+              - flag <def[player]> <def[skill]>ExpReq:0
+          - else:
+              - flag <def[player]> <def[skill]>ExpReq:+:<def[xp].add[<def[to_add]>]>
