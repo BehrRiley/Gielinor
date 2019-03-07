@@ -72,21 +72,33 @@ Reldo:
   - run locally opt_loop def:o3 instantly
   YeahNevermindQuest:
   - narrate format:cgf "<script.yaml_key[d5]>"
+  - flag player interacting_npc:!
+  - flag player sig:!
 
 
 # ██ [ Non-Quest Dialog              ] ██
   GotanyGrapes:
-  - narrate format:cgf "<script.yaml_key[]>"
+  - narrate format:cgf "<script.yaml_key[d7]>"
   - wait 2s
-  - run locally opt_loop def:o instantly
+  - run locally opt_loop def:o6 instantly
+  GrapesContinued:
+  - narrate format:cgf "<script.yaml_key[d8]>"
+  - wait 2s
+  - narrate format:cgf "<script.yaml_key[p2]>"
+  GrapesEnd:
+  - narrate format:cgf "<script.yaml_key[d9]>"
+  - flag player interacting_npc:!
+  - flag player sig:!
+
+
   WhatchyaDo:
-  - narrate format:cgf "<script.yaml_key[]>"
+  - narrate format:cgf "<script.yaml_key[d10]>"
   - wait 2s
-  - run locally opt_loop def:o instantly
-  AnyHeroicStories:
-  - narrate format:cgf "<script.yaml_key[]>"
-  - wait 2s
-  - run locally opt_loop def:o instantly
+  - run locally opt_loop def:o7 instantly
+  ALibraryOfCourse:
+  - narrate format:cgf "<script.yaml_key[d11]>"
+  - flag player interacting_npc:!
+  - flag player sig:!
 
 
 # ██ [ Quest Progression 2           ] ██
@@ -119,7 +131,6 @@ Reldo:
   - "SearchingforQuest/<&a>I'm in search of a quest."
   - "GotanyGrapes/<&a>Do you have anything to trade?"
   - "WhatchyaDo/<&a>What do you do?"
-  - "AnyHeroicStories/<&a>Do you know any heroic stories"
 
   o2:
   - "ContinueQuest/<&a>Thank you."
@@ -132,13 +143,19 @@ Reldo:
   o4: 
   - "GotanyGrapes/<&a>Do you have anything to trade?"
   - "WhatchyaDo/<&a>What do you do?"
-  - "AnyHeroicStories/<&a>Do you know any heroic stories"
   - "AfterBookContinue/<&a>Ok. I've read the book. Do you know where I can find the Phoenix Gang?"
 
   o5: 
   - "GotanyGrapes/<&a>Do you have anything to trade?"
   - "WhatchyaDo/<&a>What do you do?"
-  - "AnyHeroicStories/<&a>Do you know any heroic stories"
+
+  o6:
+  - "GrapesContinued/<&a>How much would you like for that then?"
+  - "GrapesEnd/<&a>Goodbye then."
+
+  o7:
+  - "ALibraryOfCourse/<&a>Ah, That's why you're in a library then."
+  - "GrapesEnd/<&a>Goodbye then."
 
 
 
@@ -152,30 +169,11 @@ Reldo:
   d4: "Oh. But you said you're in search of a quest."
   d5: "You perplex me. Well, come back if you change your mind again."
   d6: "No, I don't. I think I know someone who might however. If I were you I would talk to Baraek, the fur trader in the market place. I've heard he has connections with the Phoenix Gang."
+  d7: "Only knowledge."
+  d8: "No, sorry, that was just my little joke. I'm not the trading type."
+  d9: "Until next time."
+  d10: "I am the palace librarian."
+  d11: "Yes. Although i would probably be in here even if i didn't work here. I like reading. Someday i hope to catalogue all of the information stored in these books so all may read it."
 # ██ [ Player dialogue ] ██
-  p1: Thanks, I'll try that!
-
-
-
-# ███████████████████████████████████████████████████████████
-# ██   Event Handlers
-# ██
-# ██ [ Searching Bookshelves ] ██
-SoAQuestHandler:
-  type: world
-  debug: false
-  events:
-    on player clicks block in EmptyBookshelf:
-      - narrate "You search the books..."
-      - wait 2s
-      - narrate "You find nothing of interest to you."
-    on player clicks block in SoAQuestBookshelf:
-      - narrate "You search the books..."
-      - wait 2s
-      - narrate "Aha! 'The Shield Of Arrav'! Exactly what I was looking for.
-      - wait 1s
-      - narrate "You take the book from the bookcase."
-      - give i@SoAQuestBook
-    on player clicks with SoAQuestBook:
-      - if <context.click_type.contains[RIGHT]>:
-        - flag player Quest.SoA.Stage:2
+  p1: "Thanks, I'll try that!"
+  p2: "Ah well."
