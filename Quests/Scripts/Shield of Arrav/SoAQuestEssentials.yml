@@ -29,7 +29,7 @@ SoAQuestHandler:
 SoAQuestBook: 
   type: book 
   title: Shield of Arrav
-  author: Unknown 
+  author: A. R. Wright. 
   signed: true 
   # Each -line in the text section represents an entire page. 
   # To create a newline, use the tag <n>. To create a paragraph, use <p>. 
