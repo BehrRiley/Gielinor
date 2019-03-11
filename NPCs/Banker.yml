@@ -1,3 +1,7 @@
+# ███████████████████████████████████████████████████████████
+# ██    Assignment Script
+# ██    /npc assignment --set BankerNPC
+# ██ 
 BankerNPC:
   type: assignment
   debug: false
@@ -11,6 +15,10 @@ BankerNPC:
     on click:
       - run open_bank instantly
 
+# ███████████████████████████████████████████████████████████
+# ██    Open Bank Task
+# ██    - run open_task (def:#) instantly
+# ██ 
 Open_Bank:
   type: task
   debug: false
@@ -40,6 +48,9 @@ Open_Bank:
     - inventory set d:in@<def[pBank]> o:<def[items]>
   - inventory open d:in@<def[pBank]>
 
+# ███████████████████████████████████████████████████████████
+# ██    Bank Handlers
+# ██ 
 PlayerBank_Handler:
   type: world
   debug: false
@@ -76,6 +87,10 @@ PlayerBank_Handler:
     - inject locally Inventory_Save
     - run PlayerBank_Command def:<context.item.nbt[BankID]> Instantly
 
+
+# ███████████████████████████████████████████████████████████
+# ██    Custom Items
+# ██ 
 BankLeftArrow:
   type: item
   debug: false
