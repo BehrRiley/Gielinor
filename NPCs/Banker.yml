@@ -17,7 +17,7 @@ BankerNPC:
 
 # ███████████████████████████████████████████████████████████
 # ██    Open Bank Task
-# ██    - run open_task (def:#) instantly
+# ██    - run open_bank (def:#) instantly
 # ██ 
 Open_Bank:
   type: task
