@@ -62,7 +62,7 @@ Open_Bank_Admin:
   - else:
     - inject locally ErrorObjection instantly
   ErrorObjection:
-    - define key "<&4>invalid character<&co><&n><&a><def[Player]||null>"
+    - define key "<&4>invalid character<&co><&nl><&c><def[Player]||null>"
     - narrate format:bbf "Internal error <&pipe> <&c><proc[msgHover].context[<&c>Invalid Character|<def[key]>]>"
     - queue clear
   script:
@@ -102,7 +102,7 @@ PlayerBank_Handler:
   - else:
     - inject locally ErrorObjection instantly
   ErrorObjection:
-    - define key "<&4>invalid character<&co><&n><&a><def[Player]||null>"
+    - define key "<&4>invalid character<&co><&nl><&c><def[Player]||null>"
     - narrate format:bbf "Internal error <&pipe> <&c><proc[msgHover].context[<&c>Invalid Character|<def[key]>]>"
     - queue clear
   Inventory_Load:
@@ -113,15 +113,16 @@ PlayerBank_Handler:
       - yaml "load:data/pBank/pBankKey.yml" "id:pBankKey"
   Inventory_Save:
     - if <context.inventory.replace[<player.uuid>].starts_with[in@pBank].not||true>:
-      - queue clear
+      - if <context.item.nbt[PlayerID]||null> == "Null":
+        - queue clear
+      - define player <context.item.nbt[PlayerID]>
+      - inject locally UserVerification Instantly
     - define BankID <context.inventory.after[_]>
     - define dvlist <context.inventory.list_contents.get[1].to[45]>
-    - if <context.item.nbt[PlayerID]||null> != "null":
+    - if <context.item.nbt[PlayerID]||null> == "null":
       - yaml set id:pBankKey "<player.uuid>.<def[BankID]>:<def[dvlist]>"
       - define id "<player.uuid>pBank_<def[BankID]>"
     - else:
-      - define player <context.item.nbt[PlayerID]>
-      - inject locally UserVerification instantly
       - yaml set id:pBankKey "<def[player]>:<def[dvlist]>"
       - define id "<def[user].uuid>pBank_<def[BankID]>"
     - yaml "savefile:data/pBank/pBankKey.yml" "id:pBankKey"
