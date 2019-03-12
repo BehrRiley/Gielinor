@@ -1,0 +1,169 @@
+ # ███████████████████████████████████████████████████████████
+# ██    Assignment Script
+# ██    /npc assignment --set BankerNPC
+# ██ 
+# ██  [ NPC Assignment ] ██
+BankerNPC:
+  type: assignment
+  debug: false
+  actions: 
+    on assignment: 
+    - trigger name:click state:true
+    - trigger name:proximity state:true radius:4
+    - random:
+      - adjust <npc> skin_blob:<server.flag[npc_skins.banker1]>
+      - adjust <npc> skin_blob:<server.flag[npc_skins.banker2]>
+    on click:
+      - run open_bank instantly
+
+# ███████████████████████████████████████████████████████████
+# ██    Open Bank Task
+# ██    - run open_bank (def:#) instantly
+# ██    - run open_bank_admin [def:#|player] instantly
+# ██ 
+# ██  [ Player Task ] ██
+Open_Bank:
+  type: task
+  debug: false
+  definitions: BankID
+  script:
+  - define BankID <def[BankID]||1>
+  - define pBank <player.uuid>pBank_<def[BankID]>
+  - define slots1 <def[BankID].sub[1].mul[45].add[1]>
+  - define slots2 <def[BankID].sub[1].mul[45].add[45]>
+  - define title "Bank<&pipe>Items <def[slots1]>-<def[slots2]>/450"
+  - note "in@generic[title=<def[title]>;size=54]" as:<def[pBank]>
+  - define items <yaml[pBankKey].read[<player.uuid>.<def[BankID]>]||null>
+  - if <def[BankID]> > 1:
+    - define LeftArrow i@BankLeftArrow[nbt=BankID/<def[BankID].sub[1]>]
+  - else:
+    - define LeftArrow i@blank
+  - if <def[bankID]> == 10:
+    - define RightArrow i@blank 
+  - else:
+    - define RightArrow i@BankRightArrow[nbt=BankID/<def[BankID].add[1]>]
+  - define SoftMenu "li@<def[LeftArrow]>|i@Blank|i@Blank|i@Blank|i@Blank|i@Blank|i@Blank|i@Blank|<def[RightArrow]>"
+  - inventory set d:in@<def[pBank]> o:<def[SoftMenu]> slot:46
+  - if <def[items]> != null:
+    - inventory set d:in@<def[pBank]> o:<def[items]>
+  - inventory open d:in@<def[pBank]>
+
+
+# ██  [ Admin Task ] ██
+Open_Bank_Admin:
+  type: task
+  debug: true
+  definitions: BankID|Player
+  UserVerification:
+  - if <server.match_player[<def[Player]>]||null> != "null":
+    - define User <server.match_Player[<def[Player]>]>
+  - else if <server.match_player_offline[<def[Player]>]||null> != "null":
+    - define User <server.match_Player_offline[<def[Player]>]>
+  - else:
+    - inject locally ErrorObjection instantly
+  ErrorObjection:
+    - define key "<&4>invalid character<&co><&nl><&c><def[Player]||null>"
+    - narrate format:bbf "Internal error <&pipe> <&c><proc[msgHover].context[<&c>Invalid Character|<def[key]>]>"
+    - queue clear
+  script:
+  - inject locally UserVerification instantly
+  - define BankID <def[BankID]||1>
+  - define pBank <def[User].uuid>pBank_<def[BankID]>
+  - define slots1 <def[BankID].sub[1].mul[45].add[1]>
+  - define slots2 <def[BankID].sub[1].mul[45].add[45]>
+  - define title "Bank<&pipe>Items <def[slots1]>-<def[slots2]>/450"
+  - note "in@generic[title=<def[title]>;size=54]" as:<def[pBank]>
+  - define items <yaml[pBankKey].read[<def[User].uuid>.<def[BankID]>]||null>
+  - if <def[BankID]> > 1:
+    - define LeftArrow i@BankLeftArrow[nbt=li@BankID/<def[BankID].sub[1]>|PlayerID/<def[Player]>]
+  - else:
+    - define LeftArrow i@blank
+  - if <def[bankID]> == 10:
+    - define RightArrow i@blank 
+  - else:
+    - define RightArrow i@BankRightArrow[nbt=li@BankID/<def[BankID].add[1]>|PlayerID/<def[Player]>]
+  - define SoftMenu "li@<def[LeftArrow]>|i@Blank|i@Blank|i@Blank|i@Blank|i@Blank|i@Blank|i@Blank|<def[RightArrow]>"
+  - inventory set d:in@<def[pBank]> o:<def[SoftMenu]> slot:46
+  - if <def[items]> != null:
+    - inventory set d:in@<def[pBank]> o:<def[items]>
+  - inventory open d:in@<def[pBank]>
+
+# ███████████████████████████████████████████████████████████
+# ██    Bank Handlers
+# ██ 
+PlayerBank_Handler:
+  type: world
+  debug: true
+  UserVerification:
+  - if <server.match_player[<def[player]>]> != "null":
+    - define User <server.match_Player[<def[Player]>]>
+  - else if <server.match_player_offline[<def[Player]>]||null> != "null":
+    - define User <server.match_Player_offline[<def[Player]>]>
+  - else:
+    - inject locally ErrorObjection instantly
+  ErrorObjection:
+    - define key "<&4>invalid character<&co><&nl><&c><def[Player]||null>"
+    - narrate format:bbf "Internal error <&pipe> <&c><proc[msgHover].context[<&c>Invalid Character|<def[key]>]>"
+    - queue clear
+  Inventory_Load:
+    - if <server.has_file[data/pBank/pBankKey.yml].not>:
+      - yaml create "id:pBankKey"
+      - yaml "savefile:data/pBank/pBankKey.yml" "id:pBankKey"
+    - else:
+      - yaml "load:data/pBank/pBankKey.yml" "id:pBankKey"
+  Inventory_Save:
+    - if <context.inventory.replace[<player.uuid>].starts_with[in@pBank].not||true>:
+      - if <context.item.nbt[PlayerID]||null> == "Null":
+        - queue clear
+      - define player <context.item.nbt[PlayerID]>
+      - inject locally UserVerification Instantly
+    - define BankID <context.inventory.after[_]>
+    - define dvlist <context.inventory.list_contents.get[1].to[45]>
+    - if <context.item.nbt[PlayerID]||null> == "null":
+      - yaml set id:pBankKey "<player.uuid>.<def[BankID]>:<def[dvlist]>"
+      - define id "<player.uuid>pBank_<def[BankID]>"
+    - else:
+      - yaml set id:pBankKey "<def[player]>:<def[dvlist]>"
+      - define id "<def[user].uuid>pBank_<def[BankID]>"
+    - yaml "savefile:data/pBank/pBankKey.yml" "id:pBankKey"
+    - note remove as:<def[id]>
+  Arrow_Keys:
+    #- run Open_Bank def:<context.item.nbt[BankID]> Instantly
+    - if <context.item.nbt[PlayerID]||null> == "null":
+      - run Open_Bank def:<context.item.nbt[BankID]> Instantly
+    - else:
+      - run Open_Bank_Admin def:<context.item.nbt[BankID]>|<context.item.nbt[PlayerID]> Instantly
+  events:
+    on server start:
+    - inject Locally Inventory_Load
+    on reload scripts:
+    - inject Locally Inventory_Load
+    on player closes inventory:
+    - inject Locally Inventory_Save
+    on player clicks blank in inventory:
+    - determine cancelled
+    on player clicks BankRightArrow in inventory:
+    - determine passively cancelled
+    - inject locally Inventory_Save
+    - inject locally Arrow_Keys instantly
+    on player clicks BankLeftArrow in inventory:
+    - determine passively cancelled
+    - inject locally Inventory_Save instantly
+    - inject locally Arrow_Keys instantly
+
+
+# ███████████████████████████████████████████████████████████
+# ██    Custom Items
+# ██ 
+BankLeftArrow:
+  type: item
+  debug: false
+  material: i@tipped_arrow[potion_effects=li@INSTANT_HEAL,false,false;flags=li@HIDE_POTION_EFFECTS|HIDE_ENCHANTS|HIDE_ATTRIBUTES|HIDE_UNBREAKABLE|HIDE_DESTROYS|HIDE_PLACED_ON|HIDE_POTION_EFFECTS]
+  display name: <&a>◀ <&2>L<&a>ast <&2>P<&a>age <&2>◀
+  no-id: true
+BankRightArrow:
+  type: item
+  debug: false
+  material: i@tipped_arrow[potion_effects=li@INSTANT_HEAL,false,false;flags=li@HIDE_POTION_EFFECTS|HIDE_ENCHANTS|HIDE_ATTRIBUTES|HIDE_UNBREAKABLE|HIDE_DESTROYS|HIDE_PLACED_ON|HIDE_POTION_EFFECTS]
+  display name: <&a>▶ <&2>N<&a>ext <&2>P<&a>age <&2>▶
+  no-id: true
