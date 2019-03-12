@@ -1,10 +1,11 @@
 {
+  "__comment": "Max diamond durability is 1562",
   "parent": "item/handheld",
   "textures": {
-    "layer0": "item/custom/armor/diamond_helmet/"
+    "layer0": "item/diamond_helmet"
   },
   "overrides": [
-    { "predicate": { "damage": 0 }, "model": "item/custom/armor/diamond_helmet/" },
+    { "predicate": { "damage": 0 }, "model": "item/diamond_helmet" },
     { "predicate": { "damaged": 0, "damage": 0.000640614990391 }, "model": "item/custom/armor/diamond_helmet/1" },
     { "predicate": { "damaged": 0, "damage": 0.001281229980782 }, "model": "item/custom/armor/diamond_helmet/2" },
     { "predicate": { "damaged": 0, "damage": 0.001921844971172 }, "model": "item/custom/armor/diamond_helmet/3" },
@@ -1565,6 +1566,6 @@
     { "predicate": { "damaged": 0, "damage": 0.998078155028828 }, "model": "item/custom/armor/diamond_helmet/1558" },
     { "predicate": { "damaged": 0, "damage": 0.998718770019218 }, "model": "item/custom/armor/diamond_helmet/1559" },
     { "predicate": { "damaged": 0, "damage": 0.999359385009609 }, "model": "item/custom/armor/diamond_helmet/1560" },
-    { "predicate": { "damaged": 1 }, "model": "item/custom/armor/diamond_helmet/" }
+    { "predicate": { "damaged": 1 }, "model": "item/diamond_helmet" }
   ]
 }
