@@ -1,0 +1,40 @@
+# ███████████████████████████████████████████████████████████
+# ██   Event Handlers
+# ██
+# ██ [ Searching Bookshelves ] ██
+SoAQuestHandler:
+  type: world
+  debug: false
+  events:
+    on player clicks block in EmptyBookshelf:
+      - narrate "You search the books..."
+      - wait 2s
+      - narrate "You find nothing of interest to you."
+    on player clicks block in SoAQuestBookshelf:
+      - narrate "You search the books..."
+      - wait 2s
+      - narrate "Aha! 'The Shield Of Arrav'! Exactly what I was looking for.
+      - wait 1s
+      - narrate "You take the book from the bookcase."
+      - give i@SoAQuestBook
+    on player clicks with SoAQuestBook:
+      - if <context.click_type.contains[RIGHT]>:
+        - flag player Quest.SoA.Stage:2
+
+
+# ███████████████████████████████████████████████████████████
+# ██   Quest Items
+# ██
+# ██ [ Searching Bookshelves ] ██
+SoAQuestBook: 
+  type: book 
+  title: Shield of Arrav
+  author: A. R. Wright. 
+  signed: true 
+  # Each -line in the text section represents an entire page. 
+  # To create a newline, use the tag <n>. To create a paragraph, use <p>. 
+  text: 
+  - Arrav is probably the best known hero of the 4th Age. <p>Many legends are told of his heroics. One surviving artefact from the 4th Age is a fabulous shield. This shield is believed to have once belonged to Arrav and is now indeed known as the Shield of Arrav. 
+  - For over 150 years it was the prize piece in the royal museum of Varrock. However, in the year 143 of the fifth age a gang of thieves called the Phoenix Gang broke into the museum and stole the shield in a daring raid. 
+  - As a result, the current ruler, King Roald, put a 1200 gold bounty (a massive sum of money in those days) on the return of the shield, hoping that one of the culprits would betray his fellows out of greed. 
+  - This tactic did not work however, and the thieves who stole the shield have since gone on to become the most powerful crime gang in Varrock, despite making an enemy of the Royal Family many years ago. 
