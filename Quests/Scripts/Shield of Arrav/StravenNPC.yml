@@ -1,0 +1,63 @@
+# ███████████████████████████████████████████████████████████
+# ██   **Custom script paths to be injected/run**
+# ██   /npc assignment --set Straven 
+# ██ 
+# ██ [ NPC Assignment ] ██
+Straven: 
+  type: assignment 
+  debug: true 
+  actions: 
+    on assignment: 
+    - trigger name:click state:true 
+    - trigger name:proximity state:true radius:4
+    on exit proximity:
+    - flag player interacting_npc:!
+    - flag player sig:!
+# ██ [ Beginning Script Process            ] ██
+# ██ [ Quest Requirements/logic begin here ] ██
+    on click:
+      - if !<player.has_flag[Straven_stage]>:
+        - flag player interacting_npc:<queue.script>
+      - inject locally NPC_Initiation_script
+
+
+# ███████████████████████████████████████████████████████████
+# ██    Script Processing for command chat hover procedure
+# ██   
+  opt_loop: 
+  - define sig <util.random.uuid> 
+  - flag player sig:<def[sig]> 
+  - foreach <script.yaml_key[<def[1]>]>: 
+    - define value <def[value].split[/].limit[2]> 
+    - define interacting <player.flag[interacting_npc]>
+    - narrate "<proc[option].context[<def[value].get[2]>|<def[value].get[1]>|<npc>|<def[sig]>|<def[interacting]>]>" 
+# ██
+# ██   This does not change.
+# ███████████████████████████████████████████████████████████
+
+
+
+# ███████████████████████████████████████████████████████████
+# ██   Custom script paths to be injected/run
+# ██ 
+# ██   [ Selection Process Selection ]
+  NPC_Initiation_script:
+  - narrate format:cgf "<script.yaml_key[d1]>"
+  - wait 2s
+  - run locally opt_loop def:o1 instantly
+
+
+# ███████████████████████████████████████████████████████████
+# ██   Custom script paths to be injected/run 
+# ██ 
+# ██   [ Option Selections ]
+  o1: 
+  - "Script_Process_Hello/<&a>Hello"
+  - "Script_process_Goodbye/<&a>Goodbye"
+
+
+# ███████████████████████████████████████████████████████████
+# ██   Dialog Transcripts to be narrated
+# ██
+# ██ [ NPC dialogue ] ██
+  d1: "This is my first dialog, Hello."

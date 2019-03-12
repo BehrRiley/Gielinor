@@ -1,0 +1,105 @@
+# ███████████████████████████████████████████████████████████
+# ██    Assignment Script
+# ██    /npc assignment --set BankerNPC
+# ██ 
+BankerNPC:
+  type: assignment
+  debug: false
+  actions: 
+    on assignment: 
+    - trigger name:click state:true
+    - trigger name:proximity state:true radius:4
+    - random:
+      - adjust <npc> skin_blob:<server.flag[npc_skins.banker1]>
+      - adjust <npc> skin_blob:<server.flag[npc_skins.banker2]>
+    on click:
+      - run open_bank instantly
+
+# ███████████████████████████████████████████████████████████
+# ██    Open Bank Task
+# ██    - run open_bank (def:#) instantly
+# ██ 
+Open_Bank:
+  type: task
+  debug: false
+  definitions: BankID
+  script:
+  - define BankID <def[BankID]||1>
+  - define pBank <player.uuid>pBank_<def[BankID]>
+  - define slots1 <def[BankID].sub[1].mul[45].add[1]>
+  - define slots2 <def[BankID].sub[1].mul[45].add[45]>
+  - define title "Bank<&pipe>Items <def[slots1]>-<def[slots2]>/450"
+  - note "in@generic[title=<def[title]>;size=54]" as:<def[pBank]>
+  - define items <yaml[pBankKey].read[<player.uuid>.<def[BankID]>]||null>
+  - if <def[BankID]> > 1:
+    - define LeftArrow i@BankLeftArrow[nbt=BankID/<def[BankID].sub[1]>]
+  - else:
+    - define LeftArrow i@blank
+  - if <def[bankID]> == 10:
+    - define RightArrow i@blank 
+  - else:
+    - define RightArrow i@BankRightArrow[nbt=BankID/<def[BankID].add[1]>]
+  - define SoftMenu "li@<def[LeftArrow]>|i@Blank|i@Blank|i@Blank|i@Blank|i@Blank|i@Blank|i@Blank|<def[RightArrow]>"
+  #- foreach <def[SoftMenu]>:
+  #  - inventory add slot:<def[loop_index].add[45]> d:in@<def[pBank]> origin:<def[value]>
+  - define my_super_duper_lovey_item i@bankleftarrow
+  - inventory set d:in@<def[pBank]> o:<def[SoftMenu]> slot:46
+  - if <def[items]> != null:
+    - inventory set d:in@<def[pBank]> o:<def[items]>
+  - inventory open d:in@<def[pBank]>
+
+# ███████████████████████████████████████████████████████████
+# ██    Bank Handlers
+# ██ 
+PlayerBank_Handler:
+  type: world
+  debug: false
+  Inventory_Load:
+  - if <server.has_file[data/pBank/pBankKey.yml].not>:
+    - yaml create "id:pBankKey"
+    - yaml "savefile:data/pBank/pBankKey.yml" "id:pBankKey"
+  else:
+    - yaml "load:data/pBank/pBankKey.yml" "id:pBankKey"
+  Inventory_Save:
+    - if <context.inventory.replace[<player.uuid>].starts_with[in@pBank].not||true>:
+      - queue clear
+    - define BankID <context.inventory.after[_]>
+    - define dvlist <context.inventory.list_contents.get[1].to[45]>
+    - yaml set id:pBankKey "<player.uuid>.<def[BankID]>:<def[dvlist]>"
+    - yaml "savefile:data/pBank/pBankKey.yml" "id:pBankKey"
+    - define id "<player.uuid>pBank_<def[BankID]>"
+    - note remove as:<def[id]>
+  events:
+    on server start:
+    - inject Locally Inventory_Load
+    on reload scripts:
+    - inject Locally Inventory_Load
+    on player closes inventory:
+    - inject Locally Inventory_Save
+    on player clicks blank in inventory:
+    - determine cancelled
+    on player clicks BankRightArrow in inventory:
+    - determine passively cancelled
+    - inject locally Inventory_Save
+    - run PlayerBank_Command def:<context.item.nbt[BankID]> Instantly
+    on player clicks BankLeftArrow in inventory:
+    - determine passively cancelled
+    - inject locally Inventory_Save
+    - run PlayerBank_Command def:<context.item.nbt[BankID]> Instantly
+
+
+# ███████████████████████████████████████████████████████████
+# ██    Custom Items
+# ██ 
+BankLeftArrow:
+  type: item
+  debug: false
+  material: i@tipped_arrow[potion_effects=li@INSTANT_HEAL,false,false;flags=li@HIDE_POTION_EFFECTS|HIDE_ENCHANTS|HIDE_ATTRIBUTES|HIDE_UNBREAKABLE|HIDE_DESTROYS|HIDE_PLACED_ON|HIDE_POTION_EFFECTS]
+  display name: <&a>◀ <&2>L<&a>ast <&2>P<&a>age <&2>◀
+  no-id: true
+BankRightArrow:
+  type: item
+  debug: false
+  material: i@tipped_arrow[potion_effects=li@INSTANT_HEAL,false,false;flags=li@HIDE_POTION_EFFECTS|HIDE_ENCHANTS|HIDE_ATTRIBUTES|HIDE_UNBREAKABLE|HIDE_DESTROYS|HIDE_PLACED_ON|HIDE_POTION_EFFECTS]
+  display name: <&a>▶ <&2>N<&a>ext <&2>P<&a>age <&2>▶
+  no-id: true
