@@ -1,0 +1,97 @@
+# ███████████████████████████████████████████████████████████
+# ██   **Custom script paths to be injected/run**
+# ██   /npc assignment --set Hans 
+# ██ 
+# ██ [ NPC Assignment ] ██
+Hans: 
+  type: assignment 
+  debug: true 
+  actions: 
+    on assignment: 
+    - trigger name:click state:true 
+    - trigger name:proximity state:true radius:4
+    - adjust <npc> skin_blob:<server.flag[npc_skins.<script.name>]>
+    on exit proximity:
+    - flag player interacting_npc:!
+    - flag player sig:!
+# ██ [ Beginning Script Process            ] ██
+# ██ [ Quest Requirements/logic begin here ] ██
+    on click:
+      - if !<player.has_flag[Hans_stage]>:
+        - flag player interacting_npc:<queue.script>
+      - inject locally NPC_Initiation_script
+
+
+# ███████████████████████████████████████████████████████████
+# ██    Script Processing for command chat hover procedure
+# ██   
+  opt_loop: 
+  - define sig <util.random.uuid> 
+  - flag player sig:<def[sig]> 
+  - foreach <script.yaml_key[<def[1]>]>: 
+    - define value <def[value].split[/].limit[2]> 
+    - define interacting <player.flag[interacting_npc]>
+    - narrate "<proc[option].context[<def[value].get[2]>|<def[value].get[1]>|<npc>|<def[sig]>|<def[interacting]>]>" 
+# ██
+# ██   This does not change.
+# ███████████████████████████████████████████████████████████
+
+
+
+# ███████████████████████████████████████████████████████████
+# ██   Custom script paths to be injected/run 
+# ██ 
+# ██   [ Selection Process Selection ]
+  NPC_Initiation_script:
+  - narrate format:cgf "<script.yaml_key[d1]>"
+  - wait 2s
+  - run locally opt_loop def:o1 instantly
+
+  WhoseInChargeHere:
+  - narrate format:cgf "<script.yaml_key[d2]>"
+  KillEveryone:
+  - narrate format:cgf "<script.yaml_key[d3]>"
+  Idkwhereami:
+  - narrate format:cgf "<script.yaml_key[d4]>"
+  HowLongHere:
+  - narrate format:cgf "<script.yaml_key[d]>"
+
+
+# ███████████████████████████████████████████████████████████
+# ██   Custom script paths to be injected/run 
+# ██ 
+# ██   [ Option Selections ]
+  o1: 
+  - "WhoseInChargeHere/<&a>I'm looking for whoever is in charge of this place."
+  - "KillEveryone/<&a>I have come to kill everyone in this castle!"
+  - "Idkwhereami/<&a>I don't know. I'm lost. Where am i?"
+  - "HowLongHere/<&a>Can you tell me how long I've been here?"
+
+
+# ███████████████████████████████████████████████████████████
+# ██   Dialog Transcripts to be narrated
+# ██ 
+# ██ [ NPC dialogue ] ██
+  d1: "Hello. What are you doing here?"
+  d2: "Who, the Duke? He's in the study, on the second floor."
+  d3: "Help! Help!"
+  d4: "You are in Lumbridge Castle."
+  d5: "Ahh, i see all the newcomers arriving in Lumbridge, fresh-faced and eager for adventure. I remember you... You've spent <&6><player.statistic[PLAY_ONE_MINUTE].div_int[1728000].round_down><&f> days, <&6><player.statistic[PLAY_ONE_MINUTE].div_int[72000].round_down.mod[24]><&f> hours, <&6><player.statistic[PLAY_ONE_MINUTE].div_int[1200].round_down.mod[60]><&f> minutes in the world since you arrived <&6><server.current_time_millis.sub[<player.first_played.in_seconds.mul[1000]>].div[1000].div[3600].div[24].round_down><&f> days ago."
+
+
+#days since last played:
+#  <server.current_time_millis.div[86400000].sub[<player.last_played.in_milliseconds.div[86400000]>]>
+
+#Time Played Days: 
+#  <player.statistic[PLAY_ONE_MINUTE].div_int[1728000].round_down>
+#Time Played Hours:
+#  <player.statistic[PLAY_ONE_MINUTE].div_int[72000].round_down.mod[24]>
+#Time played Minutes: 
+#  <player.statistic[PLAY_ONE_MINUTE].div_int[1200].round_down.mod[60]>
+
+#total days ago:
+#  <server.current_time_millis.sub[<player.first_played.in_seconds.mul[1000]>].div[1000].div[3600].div[24].round_down>
+#total hour into that day:
+#  <server.current_time_millis.sub[<player.first_played.in_seconds.mul[1000]>].div[1000].div[3600].round_down.mod[24]>
+#total minutes into that day:
+#  <server.current_time_millis.sub[<player.first_played.in_seconds.mul[1000]>].div[1000].div[60].round_down.mod[60]>
