@@ -76,7 +76,7 @@ Hans:
   d2: "Who, the Duke? He's in the study, on the second floor."
   d3: "Help! Help!"
   d4: "You are in Lumbridge Castle."
-  d5: "Ahh, i see all the newcomers arriving in Lumbridge, fresh-faced and eager for adventure. I remember you... You've spent <&6><player.statistic[PLAY_ONE_MINUTE].div_int[1728000].round_down><&f> days, <&6><player.statistic[PLAY_ONE_MINUTE].div_int[72000].round_down.mod[24]><&f> hours, <&6><player.statistic[PLAY_ONE_MINUTE].div_int[1200].round_down.mod[60]><&f> minutes in the world since you arrived <&6><server.current_time_millis.sub[<player.first_played.in_seconds.mul[1000]>].div[1000].div[3600].div[24].round_down><&f> days ago."
+  d5: "Ahh, i see all the newcomers arriving in Lumbridge, fresh-faced and eager for adventure. I remember you... You've spent <&6><player.statistic[PLAY_ONE_MINUTE].div_int[1728000].round_down><&f> days, <&6><player.statistic[PLAY_ONE_MINUTE].div_int[72000].round_down.mod[24]><&f> hours, <&6><player.statistic[PLAY_ONE_MINUTE].div_int[1200].round_down.mod[60]><&f> minutes in the world since you arrived <&6><util.date.time.duration.sub[<player.first_played>].in_days.round_down><&f> days ago."
 
 
 #days since last played:
@@ -88,6 +88,10 @@ Hans:
 #  <player.statistic[PLAY_ONE_MINUTE].div_int[72000].round_down.mod[24]>
 #Time played Minutes: 
 #  <player.statistic[PLAY_ONE_MINUTE].div_int[1200].round_down.mod[60]>
+
+#Better first Played:
+#days:
+#  <util.date.time.duration.sub[<player.first_played>].in_days.round_down>
 
 #total days ago:
 #  <server.current_time_millis.sub[<player.first_played.in_seconds.mul[1000]>].div[1000].div[3600].div[24].round_down>
