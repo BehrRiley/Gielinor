@@ -7,6 +7,9 @@ QuestList:
   debug: false
   SheepShearer:
     def: SheepShearer
+    stagenodes:
+      qsheepshearerprogress: number of carpets needed to complete quest
+      expertsheepshearer: determination of whether player is an expert sheep shearer
     npcs:
       Freda: n@
       Wilma: n@
@@ -15,6 +18,8 @@ QuestList:
       2: complete quest by giving wool
   ShieldofArrav:
     def: SoA
+    stagenodes:
+      gang: determines the gang as either Pheonix or Black Arm.
     npcs:
       Reldo: n@
       Baraek: n@
