@@ -1,0 +1,34 @@
+# ███████████████████████████████████████████████████████████
+# ██   Quest List
+# ██
+# ██ [ Quest List, Alphabetically ] ██
+QuestList:
+  type: yaml data
+  debug: false
+  SheepShearer:
+    def: SheepShearer
+    npcs:
+      Freda: n@
+      Wilma: n@
+    stages:
+      1: Talk to fred to begin quest
+      2: complete quest by giving wool
+  ShieldofArrav:
+    def: SoA
+    npcs:
+      Reldo: n@
+      Baraek: n@
+      Charlie the Tramp: n@
+      Straven: n@
+      Weaponsmaster: n@
+      Katrine: n@
+      Jonny the Beard: n@
+      King Roald: n@
+    items: n@
+      - i@SoAQuestBook
+      - i@AoAQuestIntel
+    stages:
+      1: Speak to Reldo to know what book to look for 
+      2: Open the book of Arrav
+      3: Talk to Baraek and pay 100 gold for info
+      4:
