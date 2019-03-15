@@ -44,20 +44,101 @@ Baraek:
   NPC_Initiation_script:
   - narrate format:cgf "<script.yaml_key[d1]>"
   - wait 2s
-  - run locally opt_loop def:o1 instantly
+  - if <player.flag[Quest.SoA.Stage]> == 2:
+    - run locally opt_loop def:o2 instantly
+    - queue clear
+  - run locally opt_loop def:o2 instantly
 
+  WheretheGang:
+  - narrate format:cgf "<script.yaml_key[d2]>"
+  - wait 2s
+  - run locally opt_loop def:o3 instantly
+
+  Bye:
+  - narrate format:cgf "<script.yaml_key[d11]>"
+
+  Kwherethen:
+  - narrate format:cgf "<script.yaml_key[d3]>"
+  - wait 2s
+  - if <player.money> >= 100:
+    - run locally opt_loop def:o4 instantly
+    - queue clear
+  - run locally opt_loop def:o5 instantly
+
+  MeRichToo:
+  - narrate format:cgf "<script.yaml_key[d4]>"
+  ImBrokeLol:
+  - narrate format:cgf "<script.yaml_key[d5]>"
+  NoBribes:
+  - narrate format:cgf "<script.yaml_key[d10]>"
+
+  IgotTheMoney:
+  - narrate format:cgf "<script.yaml_key[d6]>"
+  - flag <player> Quest.SoA.Stage:3
+  - wait 2s
+  - run locally opt_loop def:o6 instantly
+
+  BadDirections:
+  - narrate format:cgf "<script.yaml_key[d7]>"
+
+  SellMeFur:
+  - narrate format:cgf "<script.yaml_key[d9]>"
+  - wait 2s
+  - run locally opt_loop def:o7 instantly
+  FurSell:
+    - take money quantity:100
+    - give <player> i@leather
+  FurDecline:
+  - narrate format:cgf "<script.yaml_key[d10]>"
 
 # ███████████████████████████████████████████████████████████
 # ██   Custom script paths to be injected/run 
 # ██ 
 # ██   [ Option Selections ]
   o1: 
-  - "Script_Process_Hello/<&a>Hello"
-  - "Script_process_Goodbye/<&a>Goodbye"
+  - "SellMeFur/<&a>Can you sell me some furs?"
+
+  o2: 
+  - "SellMeFur/<&a>Can you sell me some furs?"
+  - "WheretheGang/<&a>Can you tell me where I can find the Phoenix Gang?"
+
+  o3: 
+  - "Bye/<&a>Nevermind."
+  - "Kwherethen/<&a>So DO you know where they are?"
+
+  o4: 
+  - "MeRichToo/<&a>Yes, I'd like to be 100 gold coins richer too."
+  - "IgotTheMoney/<&a>Okay. Have 100 gold coins."
+  - "NoBribes/<&a>No, I don't like things like bribery."
+
+  o5: 
+  - "MeRichToo/<&a>Yes, I'd like to be 100 gold coins richer too."
+  - "ImBrokeLol/<&a>I haven't got that much."
+  - "NoBribes/<&a>No, I don't like things like bribery."
+
+  o6: 
+  - "BadDirections/<&a>You're really bad at giving directions."
+  - "Bye/<&a>Thanks!"
+
+  o7: 
+  - "FurSell/<&a>Sounds like a deal."
+  - "FurDecline/<&a>Actually, no thanks."
+
+
+
 
 
 # ███████████████████████████████████████████████████████████
 # ██   Dialog Transcripts to be narrated
 # ██
 # ██ [ NPC dialogue ] ██
-  d1: "This is my first dialog, Hello."
+  d1: "Hello there."
+  d2: "Sh sh sh, not so loud! You don't want to get me in trouble!"
+  d3: "I may do. But I don't want to get into trouble for revealing their hideout. Of course, if I was, say 100 gold coins richer I may happen to be more inclined to take that sort of risk..."
+  d4: "What? I thought you were meant to bribe me, not the other way around... oh, forget it!"
+  d5: "In that case I wouldn't dare tell you anything about the Phoenix Gang."
+  d6: "Ok, to get to the gang hideout, enter Varrock through the south gate. Then, if you take the first turning east, somewhere along there is an alleyway to the south. The door at the end of there is the entrance to the Phoenix Gang. They're operating there under the name of the VTAM Corporation. Be careful. The Phoenixes ain't the types to be messed about."
+  d7: "Hey now ... the Phoenix Gang make it their business to not be easy to find. Look, if you get lost, talk to Charlie the tramp near the Varrock south gate. He can give you better directions."
+  d8: "Heh. If you wanna deal with the Phoenix Gang they're involved in much worse than a bit of bribery."
+  d9: "They sell about 25 gold a piece."
+  d10: "Come back if you change your mind."
