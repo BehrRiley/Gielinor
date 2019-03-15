@@ -30,7 +30,7 @@ Charlie_The_Tramp:
   - foreach <script.yaml_key[<def[1]>]>: 
     - define value <def[value].split[/].limit[2]> 
     - define interacting <player.flag[interacting_npc]>
-    - narrate "<proc[option].context[<def[value].get[2]>|<def[value].get[1]>|<npc>|<def[sig]>|<def[interacting]>]>" 
+    - narrate "<proc[option].context[<def[value].get[2]>|<def[value].get[1]>|<npc||<def[2>>|<def[sig]>|<def[interacting]>]>" 
 # ██
 # ██   This does not change.
 # ███████████████████████████████████████████████████████████
