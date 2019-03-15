@@ -34,13 +34,13 @@ farmer:
 # ███ [ Player talks to npc ] ███ 
   farmer_init: 
   # ███ [ Has player started Sheep Shearer 1? Start    ] ███ 
-  - if !<player.has_flag[qsheepshearer1:started]>: 
+  - if <player.flag[Quest.SheepShearer.Stage]> == 1: 
     - narrate format:ff "<script.yaml_key[d1]>" 
     - wait 1s 
     - run locally opt_loop def:o1 instantly 
 
   # ███ [ Player Has started Sheep Shearer 1: Continue ] ███ 
-  - else if <player.has_flag[qsheepshearer1:started]>: 
+  - else if <player.flag[Quest.SheepShearer.Stage]> == 1: 
     - define woolcount '<player.inventory.quantity[black_carpet]>' 
     - define remainingwool '<player.flag[qsheepshearerprogress]>' 
     # ███ [ Player has no wool or carpet               ] ███ 
@@ -116,7 +116,7 @@ farmer:
   - wait 3s 
   - narrate format:ff "<script.yaml_key[d27]>" 
   - flag player qsheepshearerprogress:80 
-  - flag player qsheepshearer1:started 
+  - flag player Quest.SheepShearer.Stage:1 
   - wait 2s 
   - run locally opt_loop def:o7 instantly 
 
@@ -264,8 +264,8 @@ farmer:
     - give <player> emerald[quantity:5] 
     - flag player interacting_npc:!
     - flag player qsheepshearerprogress:! 
-    - flag player qsheepshearer1:completed 
-    - flag player questpoints:+:2 
+    - flag player Quest.SheepShearer.Stage:2
+    - flag player quest.points:+:2 
 
 
 
