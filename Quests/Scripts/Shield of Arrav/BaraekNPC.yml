@@ -80,7 +80,9 @@ Baraek:
 
   BadDirections:
   - narrate format:cgf "<script.yaml_key[d7]>"
-
+  
+  QuestPlx:
+  - narrate format:cgf "<script.yaml_key[d11]>"
   SellMeFur:
   - narrate format:cgf "<script.yaml_key[d9]>"
   - wait 2s
@@ -97,9 +99,11 @@ Baraek:
 # ██   [ Option Selections ]
   o1: 
   - "SellMeFur/<&a>Can you sell me some furs?"
+  - "QuestPlx/<&a>I'm in search of a quest."
 
   o2: 
   - "SellMeFur/<&a>Can you sell me some furs?"
+  - "QuestPlx/<&a>I'm in search of a quest."
   - "WheretheGang/<&a>Can you tell me where I can find the Phoenix Gang?"
 
   o3: 
@@ -121,8 +125,8 @@ Baraek:
   - "Bye/<&a>Thanks!"
 
   o7: 
-  - "FurSell/<&a>Sounds like a deal."
-  - "FurDecline/<&a>Actually, no thanks."
+  - "FurSell/<&a>Yeah, okay, here you go."
+  - "FurDecline/<&a>100 gold coins? that's an outrage!"
 
 
 
@@ -140,5 +144,6 @@ Baraek:
   d6: "Ok, to get to the gang hideout, enter Varrock through the south gate. Then, if you take the first turning east, somewhere along there is an alleyway to the south. The door at the end of there is the entrance to the Phoenix Gang. They're operating there under the name of the VTAM Corporation. Be careful. The Phoenixes ain't the types to be messed about."
   d7: "Hey now ... the Phoenix Gang make it their business to not be easy to find. Look, if you get lost, talk to Charlie the tramp near the Varrock south gate. He can give you better directions."
   d8: "Heh. If you wanna deal with the Phoenix Gang they're involved in much worse than a bit of bribery."
-  d9: "They sell about 25 gold a piece."
-  d10: "Come back if you change your mind."
+  d9: "Yeah, sure. They're 100 gold coins each."
+  d10: "Well, I can't go any cheaper than that mate. I have a family to feed."
+  d11: "Sorry kiddo, I'm a fur trader not a damsel in distress.
