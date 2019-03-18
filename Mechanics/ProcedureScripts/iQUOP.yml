@@ -1,0 +1,35 @@
+# ███████████████████████████████████████████████████████████ 
+# ██   Quality Universal Object Procedure 
+# ██    
+# ██  
+# ██ [ Calculation Assignment ] ██ 
+iQuop_Calc: 
+    type: procedure 
+    definitions: Durability|Quantity|Stacks|ExistQuantity|Display 
+    script: 
+      - if <def[Durability]> !matches number: 
+        - define Durability <s@ItemReference.yaml_key[<def[Durability].replace[/].with[.]>]||1> 
+      - if <def[ExistQuantity]||> != "" && <def[ExistQuantity]> matches number: 
+        - define Quantity <def[ExistQuantity].add[Quantity]> 
+      - if <def[Quantity]> !matches number: 
+        - define Quantity 1 
+      - if <def[Stacks]||false> == "": 
+        - define Stacks false 
+      - else if <def[Stacks]>: 
+        - define StackNBT ";nbt=SNBT/<def[quantity]>" 
+        - if <def[Quantity]> > 99999999: 
+          - define CC <&a> 
+          - define CoinDV <def[Quantity].div[1000000].round_down>M 
+        - else if <def[Quantity]> > 99999: 
+          - define CC <&f> 
+          - define CoinDV <def[Quantity].div[1000].round_down>K 
+        - else: 
+          - define CC <&f> 
+        - define Lore ";lore=<&8>Quantity<&co><def[cc]> <def[CoinDV]||<def[Quantity]>><def[StackNBT]>" 
+        - if <def[existquantity]||false>: 
+          - define quantity 1 
+      - else: 
+        - define CoinV "" 
+      - if <def[Display]||> == "": 
+        - define Display_name <s@ItemReference.yaml_key[<def[Durability].after[/]>]||Error> 
+      - determine "Durability=<def[Durability]>;Display_name=<def[Display_name]||<def[Display]>>;Quantity=<def[Quantity]><def[Lore]>" 
