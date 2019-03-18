@@ -7,14 +7,15 @@
 # ██   Procedure
 # ██   Used for all dialog procedures with NPC's
 # ██   
+# ██   
 
-# ███ [ Chat Procedures ] ███
+# ███ [ Chat Procedures      ] ███
 silent_injector:
   type: world
   debug: false
   pw: "[ Removed ]"
   events:
-    on cyUuQ9y8MKD9cMX command:
+    on [ Removed ] command:
     - if <c.args.size> != 4:
       - queue clear
 
@@ -24,7 +25,7 @@ silent_injector:
 
     - run <c.args.get[1]> path:<c.args.get[2]> instantly npc:<c.args.get[3]>
 
-# ███ [ Chat Procedures ] ███
+# ███ [ Chat Procedures      ] ███
 option:
   type: procedure
   definitions: display|path|npc|sig|interact
@@ -34,3 +35,18 @@ option:
   - define s_text "<&6>[<&e>Select Option<&6>]<&r> <def[display]>"
   - determine "<proc[msgCommand].context[<def[c_text]>|<s@silent_injector.yaml_key[pw]> <def[interact]> <def[path]> <def[npc]> <def[sig]>|<def[s_text]>]>"
 
+# ███ [ Chat Injector Helper ] ███
+opt_loop:
+  type: task
+  definitions: Script|NPC|Path
+  debug: false
+  script:
+  - define sig <util.random.uuid>
+  - flag player sig:<def[sig]>
+  - foreach <s@<def[Script]>.yaml_key[Path]>:
+  #- foreach <script.yaml_key[<def[1]>]>:
+    - define value <def[value].split[/].limit[2]>
+    - define interacting <player.flag[interacting_npc]>
+    - narrate "<proc[option].context[<parse:<def[value].get[2]>>|<def[value].get[Path]>|<npc||<def[NPC]>>|<def[sig]>|<def[interacting]>]>"
+  test:
+  - narrate "<&6>[<&e><def[Script]><&6>] [<&e><def[NPC]><&6>] [<&e><def[Path]><&6>]"
