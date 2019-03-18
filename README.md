@@ -21,5 +21,5 @@ Custom equipment will be able to return to the Overworld, however nothing else w
 
 ***Thanks to:***
 - **[Renkha]** - *Original kickstart of the Gielinor Map*
-- **[Mergu]** - *Helped with a **crucial** procedure script used for quest dialogs*
+- **[Mergu]** - *Helped with **crucial** procedure scripts used for quest dialogs & experience base*
 - **[Jagex]** - *Literally making the game we're using for influence.*
