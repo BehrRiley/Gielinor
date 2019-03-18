@@ -1,0 +1,135 @@
+# ███████████████████████████████████████████████████████████
+# ██   **Custom script paths to be injected/run**
+# ██   /npc assignment --set ManNPC 
+# ██ 
+# ██ [ NPC Assignment ] ██
+ManNPC: 
+  type: assignment 
+  debug: true 
+  actions: 
+    on assignment: 
+    - trigger name:click state:true 
+    - trigger name:proximity state:true radius:4
+#    - random:
+#      1:
+#        - adjust <npc> skin_blob:<server.flag[npc_skins.<script.name><util.random.int[1].to[x]>]>
+#        - adjust <npc> display_name:Man
+#      2:
+#        - adjust <npc> skin_blob:<server.flag[npc_skins.<script.name><util.random.int[x].to[x]>]>
+#        - adjust <npc> display_name:Woman
+    - flag <npc> thieving.table:man
+    on exit proximity:
+    - flag player interacting_npc:!
+    - flag player sig:!
+# ██ [ Beginning Script Process            ] ██
+# ██ [ Quest Requirements/logic begin here ] ██
+    on click:
+      - if !<player.has_flag[ManNPC_stage]>:
+        - flag player interacting_npc:<queue.script>
+      - narrate format:player "<script.yaml_key[p1]>"
+      - wait 2s
+      - inject locally "Random<util.random.int[1].to[14]>"
+
+
+# ███████████████████████████████████████████████████████████
+# ██    Script Processing for command chat hover procedure
+# ██   
+  opt_loop: 
+  - define sig <util.random.uuid> 
+  - flag player sig:<def[sig]> 
+  - foreach <script.yaml_key[<def[1]>]>: 
+    - define value <def[value].split[/].limit[2]> 
+    - define interacting <player.flag[interacting_npc]>
+    - narrate "<proc[option].context[<def[value].get[2]>|<def[value].get[1]>|<npc>|<def[sig]>|<def[interacting]>]>" 
+# ██
+# ██   This does not change.
+# ███████████████████████████████████████████████████████████
+
+
+
+# ███████████████████████████████████████████████████████████
+# ██   Custom script paths to be injected/run 
+# ██ 
+# ██   [ Selection Process Selection ]
+  Random1:
+  - narrate format:cgf "<script.yaml_key[d1]>"
+  - wait 2s
+  - run locally opt_loop def:o1 instantly
+  Trademe:
+  - narrate format:cgf "<script.yaml_key[d2]>"
+  Questplz:
+  - narrate format:cgf "<script.yaml_key[d3]>"
+  killthings:
+  - narrate format:cgf "<script.yaml_key[d4]>"
+  Random2:
+  - narrate format:player "<script.yaml_key[p2]>"
+  - wait 2s
+  - narrate format:cgf "<script.yaml_key[d5]>"
+  Random3:
+  - narrate format:cgf "<script.yaml_key[d6]>"
+  Random4:
+  - narrate format:cgf "<script.yaml_key[d7]>"
+  Random5:
+  - narrate format:cgf "<script.yaml_key[d8]>"
+  - wait 2s
+  - narrate format:player "<script.yaml_key[p3]>"
+  Random6:
+  - narrate format:cgf "<script.yaml_key[d9]>"
+  Random7:
+  - narrate format:cgf "<script.yaml_key[d10]>"
+  Random8:
+  - narrate format:cgf "<script.yaml_key[d11]>"
+  Random9:
+  - narrate format:cgf "<script.yaml_key[d12]>"
+  - wait 2s
+  - narrate format:player "<script.yaml_key[p4]>"
+  Random10:
+  - narrate format:cgf "<script.yaml_key[d13]>"
+  Random11:
+  - narrate format:cgf "<script.yaml_key[d14]>"
+  Random12:
+  - narrate format:cgf "<script.yaml_key[d15]>"
+  - wait 2s
+  - attack <player> target:<npc>
+  Random13:
+  - narrate format:cgf "<script.yaml_key[d16]>"
+  Random14:
+  - narrate format:cgf "<script.yaml_key[d17]>"
+
+# ███████████████████████████████████████████████████████████
+# ██   Custom script paths to be injected/run 
+# ██ 
+# ██   [ Option Selections ]
+  o1: 
+  - "Trademe/<&a>Do you wish to trade?"
+  - "Questplz/<&a>I'm in search of a quest"
+  - "killthings/<&a>I'm in search of enemies to kill"
+
+
+# ███████████████████████████████████████████████████████████
+# ██   Dialog Transcripts to be narrated
+# ██ 
+# ██ [ NPC dialogue ] ██
+  d1: "How can i help you?"
+  d2: "No. i have nothing i wish to get rid of. If you want to do some trading, there are plenty of shops and market stalls around though."
+  d3: "I'm sorry i can't help you there."
+  d4: "I've heard there are many fearsome creatures that dwell under the ground..."
+  d5: "I'm sorry i can't help you there."
+  d6: "Hello."
+  d7: "I think we need a new king. The one we've got isn't very good."
+  d8: "Not to bad, but I'm a little worried about the increase of goblins these days."
+  d9: "I'm very well thank you."
+  d10: "Get out of my way, I'm in a hurry!"
+  d11: "Hello there! Nice weather we're having."
+  d12: "I'm fine, how are you?"
+  d13: "I'm a little worried - I've heard theres lots of people going about, killing citizens at random."
+  d14: "Yo, wassup!"
+  d15: "Are you asking for a fight?"
+  d16: "I'm busy right now."
+  d17: "No, i don't want to buy anything!"
+
+# ██ [ Player dialogue ] ██
+  p1: "hello, how's it going?"
+  p2: "I'm in search of a quest."
+  p3: "don't worry, I'll kill them."
+  p4: "Very well thank you."
