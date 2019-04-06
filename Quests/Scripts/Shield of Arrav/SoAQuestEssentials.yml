@@ -20,6 +20,39 @@ SoAQuestHandler:
     on player clicks with SoAQuestBook:
       - if <context.click_type.contains[RIGHT]>:
         - flag player Quest.SoA.Stage:2
+        #THIS NEEDS TESTING V #
+    on player clicks oak_door:
+      - if <context.location> == l@#,#,#,Runescape:
+        #if NOT in Black Arm Gang
+            ########CONSIDER CUTTING THIS ENTIRE CHUNK REPLACE WITH INJECT##########################
+        - if <player.flag[quest.SoA.Gang]> != "Pheonix":
+          - determine passively cancelled
+          - flag player interacting_npc:Straven
+        #if accepted in Black Arm gang
+        - else if <player.flag[quest.SoA.Gang]> == "Pheonix":
+          - queue clear
+        #if accepted Pheonix Gang
+        - else if <player.flag[Quest.SoA.Gang]> == "BlackArm":
+          - narrate format:StravenNPC "<s@straven.yaml_key[d30]>"
+          - wait 2s
+          #if hasnt finished quest
+          - if <player.flag[Quest.SoA.Gang]> < LASTSTAGENUMBERHERE: ############LAST STAGE NUMBER
+            - narrate format:StravenNPC "<s@straven.yaml_key[d31]>"
+            - wait 3s
+            - narrate format:StravenNPC "<s@straven.yaml_key[d32]>"
+            - wait 5s
+            - run Straven path:opt_loop def:o|Straven instantly ###########Yes/No Switch Allegiance
+          - queue clear
+        - else:
+          - narrate format:StravenNPC "<s@straven.yaml_key[d1]>"
+          - wait 2s
+          #if player knows who they are
+          - if <player.flag[Quest.SoA.Stage]> < 3:
+            - run Straven path:opt_loop def:o1|Straven instantly
+          #if doesnt
+          - else if <player.flag[Quest.SoA.Stage]> == 3:
+            - run Straven path:opt_loop def:o2|Straven instantly
+            ########CONSIDER CUTTING THIS ENTIRE CHUNK###########################################
 
 
 # ███████████████████████████████████████████████████████████
