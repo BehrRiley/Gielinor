@@ -1,63 +1,303 @@
-# ███████████████████████████████████████████████████████████
-# ██   **Custom script paths to be injected/run**
-# ██   /npc assignment --set Straven 
-# ██ 
-# ██ [ NPC Assignment ] ██
-Straven: 
-  type: assignment 
-  debug: true 
-  actions: 
-    on assignment: 
-    - trigger name:click state:true 
-    - trigger name:proximity state:true radius:4
-    on exit proximity:
-    - flag player interacting_npc:!
-    - flag player sig:!
-# ██ [ Beginning Script Process            ] ██
-# ██ [ Quest Requirements/logic begin here ] ██
-    on click:
-      - if !<player.has_flag[Straven_stage]>:
-        - flag player interacting_npc:<queue.script>
-      - inject locally NPC_Initiation_script
+# ███████████████████████████████████████████████████████████ 
+# ██   **Custom script paths to be injected/run** 
+# ██   /npc assignment --set Straven  
+# ██  
+# ██ [ NPC Assignment ] ██ 
+Straven:  
+  type: assignment  
+  debug: true  
+  actions:  
+    on assignment:  
+    - trigger name:click state:true  
+    - trigger name:proximity state:true radius:4 
+    on exit proximity: 
+    - flag player interacting_npc:! 
+    - flag player sig:! 
+# ██ [ Beginning Script Process            ] ██ 
+# ██ [ Quest Requirements/logic begin here ] ██ 
+    on click: 
+      - if !<player.has_flag[Straven_stage]>: 
+        - flag player interacting_npc:<queue.script> 
+      - inject locally NPC_Initiation_script 
 
 
-# ███████████████████████████████████████████████████████████
-# ██    Script Processing for command chat hover procedure
-# ██   
-  opt_loop: 
-  - define sig <util.random.uuid> 
-  - flag player sig:<def[sig]> 
-  - foreach <script.yaml_key[<def[1]>]>: 
-    - define value <def[value].split[/].limit[2]> 
-    - define interacting <player.flag[interacting_npc]>
-    - narrate "<proc[option].context[<def[value].get[2]>|<def[value].get[1]>|<npc||<def[2]>>|<def[sig]>|<def[interacting]>]>" 
-# ██
-# ██   This does not change.
-# ███████████████████████████████████████████████████████████
+# ███████████████████████████████████████████████████████████ 
+# ██    Script Processing for command chat hover procedure 
+# ██    
+  opt_loop:  
+  - define sig <util.random.uuid>  
+  - flag player sig:<def[sig]>  
+  - foreach <script.yaml_key[<def[1]>]>:  
+    - define value <def[value].split[/].limit[2]>  
+    - define interacting <player.flag[interacting_npc]> 
+    - narrate "<proc[option].context[<def[value].get[2]>|<def[value].get[1]>|<npc||<def[2]>>|<def[sig]>|<def[interacting]>]>"  
+# ██ #Added Compatibility for external activation of option scripts. 
+# ██   This does not change. 
+# ███████████████████████████████████████████████████████████ 
 
 
 
-# ███████████████████████████████████████████████████████████
-# ██   Custom script paths to be injected/run
-# ██ 
-# ██   [ Selection Process Selection ]
-  NPC_Initiation_script:
-  - narrate format:cgf "<script.yaml_key[d1]>"
-  - wait 2s
-  - run locally opt_loop def:o1 instantly
-
-
-# ███████████████████████████████████████████████████████████
+# ███████████████████████████████████████████████████████████ 
 # ██   Custom script paths to be injected/run 
+# ██  
+# ██   [ Selection Process Selection ] 
+  NPC_Initiation_script: 
+  - if <player.flag[Quest.SoA.Stage]> =< 3: 
+    #############CONSIDER INJECTION, CUT THIS################################
+    - narrate format:player "<script.yaml_key[p1]>"
+    - wait 2s
+    #############DOWN TO HERE, REPLACE FROM EVENTS###########################
+    - narrate format:cgf "<script.yaml_key[d1]>" 
+    - wait 2s
+    #if player knows who they are
+    - if <player.flag[Quest.SoA.Stage]> < 3:
+      - run Straven path:opt_loop def:o1|Straven instantly
+    #if doesnt
+    - else if <player.flag[Quest.SoA.Stage]> == 3:
+      - run Straven path:opt_loop def:o2|Straven instantly
+
+  - else if <player.flag[Quest.SoA.Stage]> == 4 && <player.has_flag[Quest.SoA.IntelJob]>: 
+    - narrate format:cgf "<script.yaml_key[d9]>" 
+    - wait 2s 
+    - run locally opt_loop def:o4 instantly 
+
+  - else if <player.flag[quest.SoA.Gang]> == "Pheonix":
+    - narrate format:cgf "<script.yaml_key[d14]>" 
+    - wait 2s 
+    - run locally opt_loop def:o instantly                #############Greetings fellow member options
+  - else if <player.flag[Quest.SoA.Gang]> == "BlackArm":
+    - narrate format:StravenNPC "<s@straven.yaml_key[d30]>"
+    - wait 2s
+    #if hasnt finished quest
+    - if <player.flag[Quest.SoA.Gang]> < LASTSTAGENUMBERHERE: ############LAST STAGE NUMBER
+      - narrate format:StravenNPC "<s@straven.yaml_key[d31]>"
+      - wait 3s
+      - narrate format:StravenNPC "<s@straven.yaml_key[d32]>"
+      - wait 5s
+      - run Straven path:opt_loop def:o|Straven instantly ###########Yes/No Switch Allegiance
+  - else:
+    - narrate AAAAAAAAAAAAAAAAAAAAAAAAA
+
+
+
+
+  JobInquire: 
+  - narrate format:cgf "<script.yaml_key[d2]>" 
+  Whytho: 
+  - narrate format:cgf "<script.yaml_key[d3]>" 
+  AhaGotchya: 
+  - narrate format:cgf "<script.yaml_key[d4]>" 
+  - wait 2s 
+  - narrate format:cgf "<script.yaml_key[p1]>" 
+  - wait 4s 
+  - narrate format:cgf "<script.yaml_key[d5]>" 
+  - wait 5s 
+  - run locally opt_loop def:o3 instantly 
+
+  Nothinglol: 
+  - narrate format:cgf "<script.yaml_key[d6]>" 
+
+  plssir: 
+  - narrate format:cgf "<script.yaml_key[d7]>" 
+  - wait 2s 
+  - run locally opt_loop def:o4 instantly 
+
+  Acceptgang: 
+  - narrate format:cgf "<script.yaml_key[d9]>" 
+  - flag player Quest.SoA.IntelJob 
+  - flag player Quest.SoA.Stage:4 
+
+
+# ███████████████████████████████████████████████████████████ 
+# ██   Custom script paths to be injected/run  
+# ██  
+# ██   [ Option Selections ] 
+  o1:  
+  - "JobInquire/<&a>How do I get a job with the VTAM corporation?" 
+  - "Whytho/<&a>Sorry. That's classified information." 
+
+  o2:  
+  - "JobInquire/<&a>How do I get a job with the VTAM corporation?" 
+  - "Whytho/<&a>Sorry. That's classified information." 
+  - "AhaGotchya/<&a>I know who you are!" 
+
+  o3:  
+  - "plssir/<&a>I'd like to offer you my services." 
+  - "Nothinglol/<&a>I want nothing. I was just making sure you were them." 
+
+  o4:  
+  - "Acceptgang/<&a>Ok, I'll get right on it." 
+  - "Nothinglol/<&a>I want nothing. I was just making sure you were them." 
+
+
+# ███████████████████████████████████████████████████████████ 
+# ██   Dialog Transcripts to be narrated 
 # ██ 
-# ██   [ Option Selections ]
-  o1: 
-  - "Script_Process_Hello/<&a>Hello"
-  - "Script_process_Goodbye/<&a>Goodbye"
+# ██ [ NPC dialogue ] ██ 
+  d1: "Hey! You can't go in there. Only authorised personnel of the VTAM Corporation are allowed beyond this point." 
+  d2: "Get a copy of the Varrock Herald. If we have any positions right now, they'll be advertised in there." 
+  d3: "Sorry. That's classified information." 
+  d4: "Really. Well? Who are we then?" 
+  d5: "No, this is a legitimate business run by legitimate businessmen. Supposing we were this crime gang however, what would you want with us?" 
+  d6: "Well then get lost and stop wasting my time. ...if you know what's good for you." 
+  d7: "You mean you'd like to join the Phoenix Gang? Well, obviously I can't speak for them, but the Phoenix Gang doesn't let people join just like that. You can't be too careful, you understand. Generally someone has to prove their loyalty before they can join." 
+  d8: "Obviously, I would have no idea about that. Although having said that, a rival gang of ours, er, theirs, called the Black Arm Gang is supposedly meeting a contact from Port Sarim today in the Blue Moon Inn. OBVIOUSLY I know NOTHING about the dealings of the Phoenix Gang, but I bet if SOMEBODY were to kill him and bring back his intelligence report, they would be considered loyal enough to join." 
+
+  d9: "How's your little mission going?" 
+  d10: "You need to kill Jonny the Beard, who should be in the Blue Moon Inn.[sic] …I would guess.[sic] Not being a member of the Phoenix Gang and all." 
+  d11: "Let's see it then" 
+  d12: "I'll wait here" 
+  d13: "Yes. Yes, this is very good. Ok! You can join the Phoenix Gang!" 
+
+  d14: "Greetings, fellow gang member" 
+  d15: "Oh yeah, we've all stolen some stuff in our time. Those candlesticks down here, for example, were quite a challenge to get out of the palace." 
+  d16: "Whoa...that's a blast from the past! We stole that years and years ago! We don't even have all the shield any more." 
+  d17: "About five years ago we had a massive fight in our gang and the shield got broken in half during that fight." 
+  d19: "Shortly after the fight some gang members decided they didn't want to be part of our gang anymore. So they split off to form their own gang." 
+  d21: "The Black Arm Gang." 
+  d22: "On their way out they looted what treasures they could from us - which included one of the halves of the shield. We've been rivals with the Black Arms ever since." 
+  d23: "You can always try the marketplace in Ardougne. LOTS of opportunity there!" 
+  d24: "That would be a little tricky; their security is pretty good." 
+  d25: "Not as good as ours, obviously." 
+  d26: "But still good." 
+  d27: "If you really want to go there, it's in the alleyway to the west as you come in the south gate." 
+  d28: "One of our operatives is often near the alley - a red haired tramp, goes by the name of Charlie. He may be able to give you some ideas." 
+
+  d29: "Lucky for you I have a spare. Don't lose it again!"
+        #(Straven gives the player a master thief's armband.)
+
+#Talking to Straven after joining the Black Arm Gang 
+  d30: "Black Arm dog! How dare you show your face?" 
+  d31: "I trusted you. I welcomed you into our organisation." 
+  d32: "It's not too late. Return to us. Forsake the Black Arm Gang, and arise like the glorious phoenix that is our namesake."
+  d33: "Then we have nothing more to discuss. You know where the door is." 
+  d34: "You have made the right decision. Welcome back to the most reputable VTAM corporation." 
+
+# ██ [ player dialogue ] ██ 
+  p1: "What's through that door?"
+  p2: "This is the headquarters of the Phoenix Gang, the most powerful crime syndicate this city has ever seen!" 
+  p3: "How would I go about doing that?" 
+  p4: "Nice to meet you." 
 
 
-# ███████████████████████████████████████████████████████████
-# ██   Dialog Transcripts to be narrated
-# ██
-# ██ [ NPC dialogue ] ██
-  d1: "This is my first dialog, Hello."
+  Player: I'm afraid I've lost my master thief's armband. 
+  Player: I've heard you've got some cool treasures in this place. 
+      Player: And the shield of Arrav? I heard you got that! 
+      Player: Any suggestions for where I can go thieving? 
+      Player: Where's the Black Arm Gang hideout? I wanna go sabotage 'em! 
+                  Player: Thanks for the help! 
+                  (Returns to the previous options.) 
+      Player: Farewell. 
+      (Dialogue terminates.) 
+
+
+        Player: No 
+        Player: Yes 
+
+
+# ██ [ misc dialogue ] ██ 
+  u1: "The man reads the report" 
+  u: "Do you want to join the Phoenix Gang? You'll be able to change your allegiance back to the Black Arm Gang by talking to Katrine."
+
+
+
+
+
+
+# ███████████████████████████████████████████████████████████ 
+# ██   Dialog Transcripts to be narrated 
+# ██ 
+# ██ [ NPC dialogue ] ██ 
+  d1: "Hey! You can't go in there. Only authorised personnel of the VTAM Corporation are allowed beyond this point." 
+  d2: "Get a copy of the Varrock Herald. If we have any positions right now, they'll be advertised in there." 
+  d3: "Sorry. That's classified information." 
+  d4: "Really. Well? Who are we then?" 
+  d5: "No, this is a legitimate business run by legitimate businessmen. Supposing we were this crime gang however, what would you want with us?" 
+  d6: "Well then get lost and stop wasting my time. ...if you know what's good for you." 
+  d7: "You mean you'd like to join the Phoenix Gang? Well, obviously I can't speak for them, but the Phoenix Gang doesn't let people join just like that. You can't be too careful, you understand. Generally someone has to prove their loyalty before they can join." 
+  d8: "Obviously, I would have no idea about that. Although having said that, a rival gang of ours, er, theirs, called the Black Arm Gang is supposedly meeting a contact from Port Sarim today in the Blue Moon Inn. OBVIOUSLY I know NOTHING about the dealings of the Phoenix Gang, but I bet if SOMEBODY were to kill him and bring back his intelligence report, they would be considered loyal enough to join." 
+
+  d9: "How's your little mission going?" 
+  d10: "You need to kill Jonny the Beard, who should be in the Blue Moon Inn.[sic] …I would guess.[sic] Not being a member of the Phoenix Gang and all." 
+  d11: "Let's see it then" 
+  d12: "I'll wait here" 
+  d13: "Yes. Yes, this is very good. Ok! You can join the Phoenix Gang!" 
+
+  d14: "Greetings, fellow gang member" 
+  d15: "Oh yeah, we've all stolen some stuff in our time. Those candlesticks down here, for example, were quite a challenge to get out of the palace." 
+  d16: "Whoa...that's a blast from the past! We stole that years and years ago! We don't even have all the shield any more." 
+  d17: "About five years ago we had a massive fight in our gang and the shield got broken in half during that fight." 
+  d19: "Shortly after the fight some gang members decided they didn't want to be part of our gang anymore. So they split off to form their own gang." 
+  d21: "The Black Arm Gang." 
+  d22: "On their way out they looted what treasures they could from us - which included one of the halves of the shield. We've been rivals with the Black Arms ever since." 
+  d23: "You can always try the marketplace in Ardougne. LOTS of opportunity there!" 
+  d24: "That would be a little tricky; their security is pretty good." 
+  d25: "Not as good as ours, obviously." 
+  d26: "But still good." 
+  d27: "If you really want to go there, it's in the alleyway to the west as you come in the south gate." 
+  d28: "One of our operatives is often near the alley - a red haired tramp, goes by the name of Charlie. He may be able to give you some ideas." 
+  
+  d29: "Lucky for you I have a spare. Don't lose it again!"
+        #(Straven gives the player a master thief's armband.)
+
+#Talking to Straven after joining the Black Arm Gang 
+  d30: "Black Arm dog! How dare you show your face?" 
+  d31: "I trusted you. I welcomed you into our organisation." 
+  d32: "It's not too late. Return to us. Forsake the Black Arm Gang, and arise like the glorious phoenix that is our namesake."
+  d33: "Then we have nothing more to discuss. You know where the door is." 
+  d34: "You have made the right decision. Welcome back to the most reputable VTAM corporation."
+
+
+
+
+
+
+
+
+
+
+
+
+
+  # ███ [ Talking to Straven as a Phoenix Gang member ] ███ 
+    #Talking to Straven after having joined the Phoenix Gang 
+    #(If Heroes' Quest has been started and master thief's armband is needed:) 
+  Player: I'm afraid I've lost my master thief's armband. 
+    Straven: "Lucky for you I have a spare. Don't lose it again! 
+        Straven gives the player a master thief's armband." 
+
+Straven: "Greetings, fellow gang member." 
+  Player: I've heard you've got some cool treasures in this place. 
+    Straven: "Oh yeah, we've all stolen some stuff in our time. Those candlesticks down here, for example, were quite a challenge to get out of the palace." 
+      Player: And the shield of Arrav? I heard you got that! 
+        Straven: "Whoa...that's a blast from the past! We stole that years and years ago! We don't even have all the shield any more." 
+          Straven: "About five years ago we had a massive fight in our gang and the shield got broken in half during that fight." 
+            Straven: "Shortly after the fight some gang members decided they didn't want to be part of our gang anymore. So they split off to form their own gang." 
+              Straven: "The Black Arm Gang." 
+                Straven: "On their way out they looted what treasures they could from us - which included one of the halves of the shield. We've been rivals with the Black Arms ever since." 
+                #(Returns to the previous options.) 
+      Player: Any suggestions for where I can go thieving? 
+        Straven: "You can always try the marketplace in Ardougne. LOTS of opportunity there!" 
+        #(Returns to the previous options.) 
+      Player: Where's the Black Arm Gang hideout? I wanna go sabotage 'em! 
+        Straven: "That would be a little tricky; their security is pretty good." 
+          Straven: "Not as good as ours, obviously." 
+            Straven: "But still good." 
+              Straven: "If you really want to go there, it's in the alleyway to the west as you come in the south gate." 
+                Straven: "One of our operatives is often near the alley - a red haired tramp, goes by the name of Charlie. He may be able to give you some ideas." 
+                  Player: Thanks for the help! 
+                  (Returns to the previous options.) 
+      Player: Farewell. 
+      (Dialogue terminates.) 
+
+
+
+Talking to Straven after joining the Black Arm Gang 
+Straven: "Black Arm dog! How dare you show your face?" 
+  Straven: "I trusted you. I welcomed you into our organisation." 
+    Straven: "It's not too late. Return to us. Forsake the Black Arm Gang, and arise like the glorious phoenix that is our namesake. 
+          Do you want to join the Phoenix Gang? You'll be able to change your allegiance back to the Black Arm Gang by talking to Katrine." 
+        Player: No 
+          Straven: "Then we have nothing more to discuss. You know where the door is." 
+        Player: Yes 
+          Straven: "You have made the right decision. Welcome back to the most reputable VTAM corporation." 
