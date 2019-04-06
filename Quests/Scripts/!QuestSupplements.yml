@@ -31,8 +31,8 @@ option:
   definitions: display|path|npc|sig|interact
   debug: false
   script:
-  - define c_text "<&6>[<&e>Click<&6>]<&r> <def[display]>"
-  - define s_text "<&6>[<&e>Select Option<&6>]<&r> <def[display]>"
+  - define c_text "<&6>[<&e>Click<&6>]<&r> <parse:<def[display]>>"
+  - define s_text "<&6>[<&e>Select Option<&6>]<&r> <parse:<def[display]>>"
   - determine "<proc[msgCommand].context[<def[c_text]>|<s@silent_injector.yaml_key[pw]> <def[interact]> <def[path]> <def[npc]> <def[sig]>|<def[s_text]>]>"
 
 # ███ [ Chat Injector Helper ] ███
