@@ -16,12 +16,19 @@ Custom equipment will be able to return to the Overworld, however nothing else w
 **Current Contributors**:
 - **Behr Riley [Behr]** | [Plugin Development]
 - **Indestructoyed [Inde]** | [Plugin Development]
-- **Ant_0321 [Ant]** | [Plugin Development]
 - **VannaERR404 [Vanna]** | [Plugin Development]
-- **Mobamba [RobbyBobby]** | [Plugin Development]
-- **MLGxFOBx571 [Red Machete]** | [Plugin Development]
+- **Phey [\_Aes]** | [Head Builder]
 
 ***Thanks to:***
 - **[Renkha]** - *Original kickstart of the Gielinor Map*
-- **[Mergu]** - *Helped with a **crucial** procedure script used for quest dialogs*
+- **[Mergu]** - *Helped with a two crucial procedure script used for quest dialogs*
+- **[MWThorn]** - *Helped with on Bot Artificial Intelligence*
+- **[RobbyBobby]** - *Helped with Procedurally Generating Dungeon Procedures*
 - **[Jagex]** - *Literally making the game we're using for influence.*
+
+***Additional Contribution:***
+- **Indestructoyed [Inde]** | [Plugin Development]
+- **Ant_0321 [Ant]** | [Plugin Development] BanditCraft Owner
+- **WizardCM** | [Terrain Support] 07scape project manager
+- **Mraof** | [Model Support] ScapeCraft developer
+*Thanks to y'all specifically as well.*
