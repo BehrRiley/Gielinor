@@ -31,4 +31,3 @@ Custom equipment will be able to return to the Overworld, however nothing else w
 - **Ant_0321 [Ant]** | [Plugin Development] BanditCraft Owner
 - **WizardCM** | [Terrain Support] 07scape project manager
 - **Mraof** | [Model Support] ScapeCraft developer
-*Thanks to y'all specifically as well.*
