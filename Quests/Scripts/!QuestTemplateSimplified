@@ -14,14 +14,20 @@ npcname:
     on assignment: 
     - trigger name:click state:true 
     - trigger name:proximity state:true radius:4
-    on exit proximity:
+    
+# ██ [ Remove NPC Engagement on leaving    ] ██
+    on exit proximity: 
     - flag player interacting_npc:!
     - flag player sig:!
+
 # ██ [ Beginning Script Process            ] ██
 # ██ [ Quest Requirements/logic begin here ] ██
-    on click:
+    on click: 
+      # if player isn't engaged, then engage NPC
       - if !<player.has_flag[npcname_stage]>:
         - flag player interacting_npc:<queue.script>
+
+      # this is the first interaction command  
       - inject locally NPC_Initiation_script
 
 
@@ -48,16 +54,28 @@ npcname:
 # ██   are clicked to run, or run on events
 # ██ 
 # ██   [ Selection Process Selection ]
-  NPC_Initiation_script:
+
+  #this is ran first
+  NPC_Initiation_script: 
   - narrate format:cgf "<script.yaml_key[d1]>"
   - wait 2s
+  # this is what actually runs the option selection labeled o1 for hello/goodbye
   - run locally opt_loop def:o1 instantly
 
-  Script_Process_Hello:
+  Script_Process_Hello: 
   - narrate format:cgf "<script.yaml_key[d2]>"
 
-  Script_Process_Goodbye:
+  Script_Process_Goodbye: 
   - narrate format:cgf "<script.yaml_key[d3]>"
+
+
+# ██   [TIP]
+# ██: You can use either Dialog Library with all dialog 
+# ██: saved at the bottom using this command set:
+# ██| - narrate format:cgf "<script.yaml_key[d1]>"
+# ██
+# ██: OR you can actually enter the text to make one less section:
+# ██| - narrate format:cgf "This is my first dialog, Hello."
 
 
 # ███████████████████████████████████████████████████████████
