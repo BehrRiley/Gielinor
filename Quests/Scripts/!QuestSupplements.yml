@@ -1,5 +1,5 @@
 # Helper command for injecting NPC internals from chat commands
-# Uses the command "WQGvt6LFz" - you can consider this a password.
+# Uses the command "[ Removed ]" - you can consider this a password.
 # Nobody should run this command from in-game.
 # Using the event ensures players do not know of the command via tab-complete or /help
 
@@ -7,14 +7,15 @@
 # ██   Procedure
 # ██   Used for all dialog procedures with NPC's
 # ██   
+# ██   
 
-# ███ [ Chat Procedures ] ███
+# ███ [ Chat Procedures      ] ███
 silent_injector:
   type: world
   debug: false
-  pw: "WQGvt6LFz"
+  pw: "[ Removed ]"
   events:
-    on WQGvt6LFz command:
+    on [ Removed ] command:
     - if <c.args.size> != 4:
       - queue clear
 
@@ -24,13 +25,28 @@ silent_injector:
 
     - run <c.args.get[1]> path:<c.args.get[2]> instantly npc:<c.args.get[3]>
 
-# ███ [ Chat Procedures ] ███
+# ███ [ Chat Procedures      ] ███
 option:
   type: procedure
   definitions: display|path|npc|sig|interact
   debug: false
   script:
-  - define c_text "<&6>[<&e>Click<&6>]<&r> <[display]>"
-  - define s_text "<&6>[<&e>Select Option<&6>]<&r> <[display]>"
-  - determine "<proc[msgCommand].context[<[c_text].parsed>|<s@silent_injector.yaml_key[pw]> <[interact]> <[path]> <[npc]> <[sig]>|<[s_text].parsed>]>"
+  - define c_text "<&6>[<&e>Click<&6>]<&r> <[display].parsed>"
+  - define s_text "<&6>[<&e>Select Option<&6>]<&r> <[display].parsed>"
+  - determine "<proc[msgCommand].context[<[c_text]>|<s@silent_injector.yaml_key[pw]> <[interact]> <[path]> <[npc]> <[sig]>|<[s_text]>]>"
 
+# ███ [ Chat Injector Helper ] ███
+opt_loop:
+  type: task
+  definitions: Script|NPC|Path
+  debug: false
+  script:
+  - define sig <util.random.uuid>
+  - flag player sig:<[sig]>
+  - foreach <s@<[Script]>.yaml_key[Path]>:
+  #- foreach <script.yaml_key[<[1]>]>:
+    - define value <[value].split[/].limit[2]>
+    - define interacting <player.flag[interacting_npc]>
+    - narrate "<proc[option].context[<[value].get[2].parsed>|<[value].get[Path]>|<npc||<[NPC]>>|<[sig]>|<[interacting]>]>"
+  test:
+  - narrate "<&6>[<&e><[Script]><&6>] [<&e><[NPC]><&6>] [<&e><[Path]><&6>]"
