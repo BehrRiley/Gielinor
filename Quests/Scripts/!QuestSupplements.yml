@@ -1,5 +1,5 @@
 # Helper command for injecting NPC internals from chat commands
-# Uses the command "[ Removed ]" - you can consider this a password.
+# Uses the command "WQGvt6LFz" - you can consider this a password.
 # Nobody should run this command from in-game.
 # Using the event ensures players do not know of the command via tab-complete or /help
 
@@ -12,9 +12,9 @@
 silent_injector:
   type: world
   debug: false
-  pw: "[ Removed ]"
+  pw: "WQGvt6LFz"
   events:
-    on cyUuQ9y8MKD9cMX command:
+    on WQGvt6LFz command:
     - if <c.args.size> != 4:
       - queue clear
 
@@ -30,7 +30,7 @@ option:
   definitions: display|path|npc|sig|interact
   debug: false
   script:
-  - define c_text "<&6>[<&e>Click<&6>]<&r> <def[display]>"
-  - define s_text "<&6>[<&e>Select Option<&6>]<&r> <def[display]>"
-  - determine "<proc[msgCommand].context[<def[c_text]>|<s@silent_injector.yaml_key[pw]> <def[interact]> <def[path]> <def[npc]> <def[sig]>|<def[s_text]>]>"
+  - define c_text "<&6>[<&e>Click<&6>]<&r> <[display]>"
+  - define s_text "<&6>[<&e>Select Option<&6>]<&r> <[display]>"
+  - determine "<proc[msgCommand].context[<[c_text].parsed>|<s@silent_injector.yaml_key[pw]> <[interact]> <[path]> <[npc]> <[sig]>|<[s_text].parsed>]>"
 
