@@ -16,37 +16,22 @@ silent_injector:
   pw: "[ Removed ]"
   events:
     on [ Removed ] command:
-    - if <c.args.size> != 4:
-      - queue clear
+    - if <context.args.size> != 4:
+      - stop
 
     - determine passively fulfilled
-    - if !<player.has_flag[sig]> || <player.flag[sig]> != <c.args.get[4]>:
-      - queue clear
+    - if !<player.has_flag[sig]> || <player.flag[sig]> != <context.args.get[4]>:
+      - stop
 
-    - run <c.args.get[1]> path:<c.args.get[2]> instantly npc:<c.args.get[3]>
+    - run <context.args.get[1]> path:<context.args.get[2]> instantly npc:<context.args.get[3]>
 
-# ███ [ Chat Procedures      ] ███
+# ███ [ Chat Procedures ] ███
 option:
   type: procedure
   definitions: display|path|npc|sig|interact
   debug: false
   script:
-  - define c_text "<&6>[<&e>Click<&6>]<&r> <[display].parsed>"
-  - define s_text "<&6>[<&e>Select Option<&6>]<&r> <[display].parsed>"
-  - determine "<proc[msgCommand].context[<[c_text]>|<s@silent_injector.yaml_key[pw]> <[interact]> <[path]> <[npc]> <[sig]>|<[s_text]>]>"
+  - define c_text "<&6>[<&e>Click<&6>]<&r> <[display]>"
+  - define s_text "<&6>[<&e>Select Option<&6>]<&r> <[display]>"
+  - determine "<proc[msgCommand].context[<[c_text].parsed>|<s@silent_injector.yaml_key[pw]> <[interact]> <[path]> <[npc]> <[sig]>|<[s_text].parsed>]>"
 
-# ███ [ Chat Injector Helper ] ███
-opt_loop:
-  type: task
-  definitions: Script|NPC|Path
-  debug: false
-  script:
-  - define sig <util.random.uuid>
-  - flag player sig:<[sig]>
-  - foreach <s@<[Script]>.yaml_key[Path]>:
-  #- foreach <script.yaml_key[<[1]>]>:
-    - define value <[value].split[/].limit[2]>
-    - define interacting <player.flag[interacting_npc]>
-    - narrate "<proc[option].context[<[value].get[2].parsed>|<[value].get[Path]>|<npc||<[NPC]>>|<[sig]>|<[interacting]>]>"
-  test:
-  - narrate "<&6>[<&e><[Script]><&6>] [<&e><[NPC]><&6>] [<&e><[Path]><&6>]"
